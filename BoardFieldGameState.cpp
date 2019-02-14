@@ -46,24 +46,34 @@ void  BoardFieldGame::playAt(unsigned int row, unsigned int column, char playerC
         gameBoard[row][column] = playerCharcter;
     }
     else {
-        std::runtime_error("You Cannot Play There At");
+        throw std::runtime_error("You Cannot Play There Another Tile Has Already Taken");
     }
 }
 
 void BoardFieldGame::drawBoard()
 {
-    std::cout <<std::endl<<"-----------------------" <<std::endl;
+    std::cout <<std::endl<<"---------------------------------" <<std::endl;
     for (unsigned int i = 0 ; i < gameBoard.size(); i++){
         for (unsigned int y = 0 ; y < gameBoard.size() ; y++){
             if (gameBoard[i][y] != BLANK){
-                std::cout <<std::right << std::setw(7) << gameBoard[i][y] << " | ";
+                std::cout <<std::right << std::setw(2) << gameBoard[i][y] ;
+                if (y < GRIDSIZE -1 ){
+                    std::cout << " | ";
+                }
             }
             else {
-                std::cout <<std::right << std::setw(7)<< " " << " | ";
+                std::cout <<std::right << std::setw(2)<< " ";
+                if (y < GRIDSIZE -1 ){
+                    std::cout << " | ";
+                }
             }
+
         }
+
         std::cout << std::endl;
+
     }
+    std::cout <<std::endl<<"---------------------------------" <<std::endl;
 }
 
 std::vector<std::unique_ptr<BoardFieldGame> > BoardFieldGame::generateStates(char playerCharcter)
@@ -81,23 +91,23 @@ std::vector<std::unique_ptr<BoardFieldGame> > BoardFieldGame::generateStates(cha
 
 }
 
-int BoardFieldGame::isGameState()
+char BoardFieldGame::isGameState()
 {
 
 
      // any of the rows is same
      for (int i=0; i< GRIDSIZE; i++)
      {
-      if(gameBoard[i][0]==gameBoard[i][1] && gameBoard[i][1]==gameBoard[i][2] && gameBoard[i][0]!=0)
+      if(gameBoard[i][0]==gameBoard[i][1] && gameBoard[i][1]==gameBoard[i][2] && gameBoard[i][0]!=BLANK)
       {
         return gameBoard[i][0];
       }
      }
 
      // any of the columns is same
-     for(int i=0; i< GRIDSIZE; i++)
+     for(unsigned int i=0; i< GRIDSIZE; i++)
      {
-      if (gameBoard[0][i]==gameBoard[1][i] && gameBoard[1][i]==gameBoard[2][i] && gameBoard[0][i]!=0)
+      if (gameBoard[0][i]==gameBoard[1][i] && gameBoard[1][i]==gameBoard[2][i] && gameBoard[0][i]!=BLANK)
       {
         return gameBoard[0][i];
 
@@ -105,13 +115,13 @@ int BoardFieldGame::isGameState()
      }
 
      // 1st diagonal is same
-     if(gameBoard[0][0]==gameBoard[1][1] && gameBoard[1][1]==gameBoard[2][2] && gameBoard[0][0]!=0)
+     if(gameBoard[0][0]==gameBoard[1][1] && gameBoard[1][1]==gameBoard[2][2] && gameBoard[0][0]!=BLANK)
      {
         return gameBoard[0][0];
      }
 
      // 2nd diagonal is same
-     if(gameBoard[0][2]==gameBoard[1][1] && gameBoard[1][1]==gameBoard[2][0] && gameBoard [0][2]!=0)
+     if(gameBoard[0][2]==gameBoard[1][1] && gameBoard[1][1]==gameBoard[2][0] && gameBoard [0][2]!=BLANK)
      {
       return gameBoard[0][2];
 
@@ -120,9 +130,9 @@ int BoardFieldGame::isGameState()
      // if we reached here nobody has won yet
 
      // if any empty box on gameBoard then play on
-     for(int i=0; i<=2; i++)
+     for(unsigned int i=0; i<=2; i++)
      {
-      for(int j=0; j<=2; j++)
+      for(unsigned int j=0; j<=2; j++)
       {
           //NO ONE HAS WON YET
        if(gameBoard[i][j]==BLANK)

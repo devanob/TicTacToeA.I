@@ -31,7 +31,7 @@ class BoardFieldGame
          std::vector<std::unique_ptr<BoardFieldGame>> generateStates(char playerCharcter);
          //specify which player has won
          //if draw return draw
-         int isGameState();
+         char isGameState();
         //End
         
         //Set Utiltity For Node and Get Utility
