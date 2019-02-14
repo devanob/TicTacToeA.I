@@ -18,7 +18,14 @@ class BoardFieldGame
 {
     public:
         BoardFieldGame();
+        //Copy contructor and copy operator
         BoardFieldGame(const BoardFieldGame& boardState) ;
+        BoardFieldGame& operator =(const BoardFieldGame& boardState);
+        //End
+         //Move contructor and move operator
+        BoardFieldGame(BoardFieldGame &&boardState) ;
+        BoardFieldGame& operator =(BoardFieldGame&& boardState);
+        //End
         BoardFieldGame(const BoardFieldGame& boardState,unsigned  int row, unsigned int  column, char playerCharcter) ;
         //Begin-playAt --> plays at The Player With Symbol playerChacter At row = row+1 and column  column + 1
         void playAt(unsigned  int row, unsigned int  column, char playerCharcter);

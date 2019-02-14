@@ -23,6 +23,37 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState)
 
 }
 
+BoardFieldGame & BoardFieldGame::operator =(const BoardFieldGame &boardState)
+{
+    //Copy Contructor//
+    this->row_played = boardState.row_played;
+    this->column_played = boardState.column_played;
+    this->gameBoard = boardState.gameBoard;
+    this->utilityValue = boardState.utilityValue;
+    return *this;
+}
+
+BoardFieldGame::BoardFieldGame(BoardFieldGame &&boardState)
+{
+    //Move Contructor//
+    this->row_played = std::move(boardState.row_played);
+    this->column_played = std::move(boardState.column_played);
+    this->gameBoard = std::move(boardState.gameBoard);
+    this->utilityValue = std::move(boardState.utilityValue);
+
+}
+
+BoardFieldGame &BoardFieldGame::operator =(BoardFieldGame &&boardState)
+{
+    //Move operator//
+    this->row_played = std::move(boardState.row_played);
+    this->column_played = std::move(boardState.column_played);
+    this->gameBoard = std::move(boardState.gameBoard);
+    this->utilityValue = std::move(boardState.utilityValue);
+    return *this;
+
+}
+
 BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState, unsigned int row, unsigned int column, char playerCharcter)
 {
     //Copy Contructor//
