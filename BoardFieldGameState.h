@@ -2,6 +2,11 @@
 #define BOARDFIELDGAME_H
 #include <memory>
 #include <vector>
+
+//Flag If Player HAs Won
+#define WON 1
+#define DRAW 2
+#define GRIDSIZE 3
 class BoardFieldGame
 {
     public:
@@ -14,7 +19,10 @@ class BoardFieldGame
          //End 
          //Generate New States Based On Current State 
         //throw an error if the state is a terminal state
-         std::vector<std::unique_ptr<BoardFieldGame>> generateStates();
+         std::vector<std::unique_ptr<BoardFieldGame>> generateStates(char playerCharcter);
+         //specify which player has won
+         //if anything player has won
+         int isGameState(char& playerWon);
         //End
         
         //Set Utiltity For Node and Get Utility
@@ -27,6 +35,8 @@ private:
         unsigned int row_played;
         unsigned int column_played;
         //End 
+        //Data Structure Board
+         std::vector<std::vector<char>> gameBaord;
         
         
 
