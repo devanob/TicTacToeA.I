@@ -9,6 +9,7 @@ BoardFieldGame::BoardFieldGame()
     //Set Board Game Data Structure
     this->gameBoard = std::move(internalDat);
     this->utilityValue = 0;
+    this->depth =0;//depth always start off as zero as a rule
 
 }
 
@@ -19,6 +20,7 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState)
     this->column_played = boardState.column_played;
     this->gameBoard = boardState.gameBoard;
     this->utilityValue = boardState.utilityValue;
+    this->depth = boardState.depth;
 
 
 }
@@ -65,6 +67,7 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState, unsigned int ro
     gameBoard[row][column] = playerCharcter;
     this->row_played = row;
     this->column_played = column;
+    depth = boardState.depth + 1;
     //
 
 }
@@ -107,7 +110,7 @@ void BoardFieldGame::drawBoard()
     std::cout <<std::endl<<"---------------------------------" <<std::endl;
 }
 
-std::vector<std::unique_ptr<BoardFieldGame> > BoardFieldGame::generateStates(char playerCharcter)
+std::vector<std::unique_ptr<BoardFieldGame> > BoardFieldGame::generateStates(char playerCharcter) const
 {
     std::vector<std::unique_ptr<BoardFieldGame>> movesSet;
     for (unsigned int  row =  0 ; row < gameBoard.size() ; row++){
@@ -187,4 +190,29 @@ int BoardFieldGame::getUtilityValue() const
 void BoardFieldGame::setUtilityValue(int value)
 {
     utilityValue = value;
+}
+const char& BoardFieldGame::at(unsigned int &row, unsigned int &column) const
+{
+    //might throw an exception if index bound  is beyond capicity//
+    return gameBoard.at(row).at(column);
+}
+
+unsigned int BoardFieldGame::getRow_played() const
+{
+    return row_played;
+}
+
+unsigned int BoardFieldGame::getColumn_played() const
+{
+    return column_played;
+}
+
+unsigned int BoardFieldGame::getDepth() const
+{
+    return depth;
+}
+
+void BoardFieldGame::setDepth(unsigned int value)
+{
+    depth = value;
 }

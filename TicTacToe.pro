@@ -4,7 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    BoardFieldGameState.cpp
+    BoardFieldGameState.cpp \
+    AIPlayerTicTacToe.cpp
 
 HEADERS += \
-    BoardFieldGameState.h
+    BoardFieldGameState.h \
+    AIPlayerTicTacToe.h

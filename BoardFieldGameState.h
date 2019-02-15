@@ -14,6 +14,9 @@
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
+
+#include <limits>
+//Limits
 class BoardFieldGame
 {
     public:
@@ -35,7 +38,7 @@ class BoardFieldGame
          //End 
          //Generate New States Based On Current State 
         //throw an error if the state is a terminal state
-         std::vector<std::unique_ptr<BoardFieldGame>> generateStates(char playerCharcter);
+         std::vector<std::unique_ptr<BoardFieldGame>> generateStates(char playerCharcter) const ;
          //specify which player has won
          //if draw return draw
          char isGameState();
@@ -44,9 +47,19 @@ class BoardFieldGame
         //Set Utiltity For Node and Get Utility
          int getUtilityValue() const;
          void setUtilityValue(int value);
+         //get  the play at row, column user can not modify internel state//
+         const char &at(unsigned int& row, unsigned int& column) const;
+
+         unsigned int getRow_played() const;
+
+         unsigned int getColumn_played() const;
+
+         unsigned int getDepth() const;
+         void setDepth(unsigned int value);
 
 private:
          int utilityValue;
+         unsigned int depth;
          // Begin -The Position The Player Made That Lead To This Positon
         unsigned int row_played;
         unsigned int column_played;
