@@ -3,10 +3,10 @@
 #include <memory>
 #include <vector>
 
-//Flag If Player HAs Won
+//Flag fIf Player HAs Won
 #define WON 1
 #define DRAW '-'
-#define NOGOINGGAME '|'
+#define ONGOING '|'
 
 #define GRIDSIZE 3
 #define BLANK '*'
@@ -41,7 +41,7 @@ class BoardFieldGame
          std::vector<std::unique_ptr<BoardFieldGame>> generateStates(char playerCharcter) const ;
          //specify which player has won
          //if draw return draw
-         char isGameState();
+         char isGameState() const;
         //End
         
         //Set Utiltity For Node and Get Utility

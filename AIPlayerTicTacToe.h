@@ -27,12 +27,15 @@ private:
         bool terminalStateOrDepthBound(BoardFieldGame& childBoard);
         //Here Tempoaray For Testing  // seed the generator
         //Evaluation Function Helpers
+        //Huerstic Function
+        int heuristic(const BoardFieldGame &gameBoard, char & player);
         //Checking For Various Possible Wins Acros Different Conditions
-        int checkRow(BoardFieldGame& childBoard, char & player);
-        int checkColumns(BoardFieldGame& childBoard, char & player);
-        int checkDiagnonal(BoardFieldGame& childBoard, char & player);
-        int checkAntiDiagonal(BoardFieldGame& childBoard, char & player);
-        //
+        int checkRow(const BoardFieldGame& gameBoard, char & player);
+        int checkColumns(const BoardFieldGame& gameBoard, char & player);
+        int checkDiagnonal(const BoardFieldGame& gameBoard, char & player);
+        int checkAntiDiagonal(const BoardFieldGame& gameBoard, char & player);
+
+
 
 
 

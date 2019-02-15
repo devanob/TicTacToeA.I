@@ -125,7 +125,7 @@ std::vector<std::unique_ptr<BoardFieldGame> > BoardFieldGame::generateStates(cha
 
 }
 
-char BoardFieldGame::isGameState()
+char BoardFieldGame::isGameState() const
 {
 
 
@@ -172,7 +172,7 @@ char BoardFieldGame::isGameState()
        if(gameBoard[i][j]==BLANK)
        {
 
-           return NOGOINGGAME;
+           return ONGOING;
        }
       }
      }
