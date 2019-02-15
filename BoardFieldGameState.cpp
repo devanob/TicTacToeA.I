@@ -90,13 +90,13 @@ void BoardFieldGame::drawBoard()
     for (unsigned int i = 0 ; i < gameBoard.size(); i++){
         for (unsigned int y = 0 ; y < gameBoard.size() ; y++){
             if (gameBoard[i][y] != BLANK){
-                std::cout <<std::right << std::setw(2) << gameBoard[i][y] ;
+                std::cout <<std::internal << std::setw(2) << gameBoard[i][y] ;
                 if (y < GRIDSIZE -1 ){
                     std::cout << " | ";
                 }
             }
             else {
-                std::cout <<std::right << std::setw(2)<< " ";
+                std::cout <<std::internal << std::setw(2)<< " ";
                 if (y < GRIDSIZE -1 ){
                     std::cout << " | ";
                 }

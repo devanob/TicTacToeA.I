@@ -26,7 +26,13 @@ private:
         //min funciton
         bool terminalStateOrDepthBound(BoardFieldGame& childBoard);
         //Here Tempoaray For Testing  // seed the generator
-        //Testing Purposes
+        //Evaluation Function Helpers
+        //Checking For Various Possible Wins Acros Different Conditions
+        int checkRow(BoardFieldGame& childBoard, char & player);
+        int checkColumns(BoardFieldGame& childBoard, char & player);
+        int checkDiagnonal(BoardFieldGame& childBoard, char & player);
+        int checkAntiDiagonal(BoardFieldGame& childBoard, char & player);
+        //
 
 
 
