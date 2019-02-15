@@ -8,14 +8,13 @@ AIPlayerTicTacToe::AIPlayerTicTacToe(const char &playeSymbol, const char &oppone
     this->maxdepth = maxDept;
 }
 
-bool AIPlayerTicTacToe::play(const BoardFieldGame &currentBoard, unsigned int &row, unsigned int &column)
+bool AIPlayerTicTacToe::play(BoardFieldGame &currentBoard)
 {
     try {
 
     BoardFieldGame copyGameState = currentBoard;//get a copy of the current board
     auto bestMove = MiniMAxDecision(currentBoard); // calculate the best move
-    row = bestMove.getRow_played();
-    column = bestMove.getColumn_played();
+    currentBoard.playAt(bestMove.getRow_played(),bestMove.getColumn_played(),maxPlayer);//play at our best spot
     }
     catch(std::exception& expt){
         //We werent able to lay for some reason
@@ -23,6 +22,16 @@ bool AIPlayerTicTacToe::play(const BoardFieldGame &currentBoard, unsigned int &r
         return false;
     }
 
+}
+
+char AIPlayerTicTacToe::getMaxPlayer() const
+{
+    return maxPlayer;
+}
+
+void AIPlayerTicTacToe::setMaxPlayer(char value)
+{
+    maxPlayer = value;
 }
 
 BoardFieldGame AIPlayerTicTacToe::MiniMAxDecision(const BoardFieldGame &currentBoard)
@@ -46,6 +55,9 @@ BoardFieldGame AIPlayerTicTacToe::MiniMAxDecision(const BoardFieldGame &currentB
 
 int AIPlayerTicTacToe::evalutaionFunciton(const BoardFieldGame &currentBoard)
 {
+    std::random_device rd; // obtain a random number from hardware
+    std::mt19937 eng(rd()); // seed the generator
+    std::uniform_int_distribution<> distr(-10, 10);
     return distr(eng);
 }
 
@@ -79,12 +91,14 @@ bool AIPlayerTicTacToe::terminalStateOrDepthBound(BoardFieldGame &childBoard)
 {
     auto WinLossState = childBoard.isGameState();
     if (WinLossState== maxPlayer || WinLossState == minOpponet || WinLossState == DRAW){
+        //childBoard.drawBoard();
         return true; // game has ended with a win for someone or a draw
     }
     else if (childBoard.getDepth() == maxdepth){
         return true; // we have reach our max dept
     }
     else {
+
         return false; // game is still ongoing
     }
 }
