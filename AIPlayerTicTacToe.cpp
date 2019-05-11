@@ -1,13 +1,25 @@
 #include "AIPlayerTicTacToe.h"
 
-
+/**
+ * @brief Construct a new AIPlayerTicTacToe::AIPlayerTicTacToe object
+ * 
+ * @param playeSymbol - the char symbol of the current player 
+ * @param opponetSymbol -the char symbol of the  opposing player
+ * @param maxDept - the maximuim depth search of the user (search space)
+ */
 AIPlayerTicTacToe::AIPlayerTicTacToe(const char &playeSymbol, const char &opponetSymbol, const unsigned int &maxDept)
 {
     this->maxPlayer = playeSymbol;
     this->minOpponet = opponetSymbol;
     this->maxdepth = maxDept;
 }
-
+/**
+ * @brief - pass a reference to the current board then the current player makes a move on that board 
+ * 
+ * @param currentBoard - reference to the a board
+ * @return bool if playing was succesful return true or false if an error occured like memory allocation issues
+ * @return false 
+ */
 bool AIPlayerTicTacToe::play(BoardFieldGame &currentBoard)
 {
     try {
@@ -24,17 +36,30 @@ bool AIPlayerTicTacToe::play(BoardFieldGame &currentBoard)
     }
 
 }
-
+/**
+ * @brief - return the char symbol of the max player 
+ * 
+ * @return char 
+ */
 char AIPlayerTicTacToe::getMaxPlayer() const
 {
     return maxPlayer;
 }
-
+/**
+ * @brief - set the value of the max player
+ * 
+ * @param value - the char symbol for the max player
+ */
 void AIPlayerTicTacToe::setMaxPlayer(char value)
 {
     maxPlayer = value;
 }
-
+/**
+ * @brief -Passed In A copy of the current board using the MinMax Algo With Dept Bound To Find The Best Move
+ * 
+ * @param currentBoard - playing board
+ * @return BoardFieldGame return a board with the best move
+ */
 BoardFieldGame AIPlayerTicTacToe::MiniMAxDecision(const BoardFieldGame &currentBoard)
 {
     auto possibleMoves = currentBoard.generateStates(maxPlayer);//generate state in which you are next player
@@ -53,7 +78,13 @@ BoardFieldGame AIPlayerTicTacToe::MiniMAxDecision(const BoardFieldGame &currentB
     return std::move(*(*max));//return the best move theorically
 
 }
-
+/**
+ * @brief - Given A Board Evaluates The Current Board Game Using An Custom Evaluation Function 
+ * 
+ * @param currentBoard - referece to a current board instance
+ * @return int return a evaluation value between -int max to + int max 
+ * where -INF = MIN WIN +INF = MAX WIN AND Any Finite Number Is Eval Score
+ */
 int AIPlayerTicTacToe::evalutaionFunciton(const BoardFieldGame &currentBoard)
 {
     if (currentBoard.isGameState() == maxPlayer){ // if you have won =INF
@@ -69,7 +100,12 @@ int AIPlayerTicTacToe::evalutaionFunciton(const BoardFieldGame &currentBoard)
         return heuristic(currentBoard, maxPlayer) -  heuristic(currentBoard, minOpponet);
     }
 }
-
+/**
+ * @brief 
+ * 
+ * @param childBoard 
+ * @return int 
+ */
 int AIPlayerTicTacToe::maxValue(BoardFieldGame &childBoard)
 {
     if (terminalStateOrDepthBound(childBoard)){
