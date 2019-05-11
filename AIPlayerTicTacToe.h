@@ -2,7 +2,10 @@
 #define AIPLAYERTICTACTOE_H
 #include "BoardFieldGameState.h"
 #include <random>
-
+/**
+ * @brief This Is A.I Implementation Using Mini-Max And Depth Bound
+ * 
+ */
 class AIPlayerTicTacToe
 {
     public:
