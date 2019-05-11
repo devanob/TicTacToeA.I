@@ -32,7 +32,7 @@ private:
         //Checking For Various Possible Wins Acros Different Conditions
         int checkRow(const BoardFieldGame& gameBoard, char & player);
         int checkColumns(const BoardFieldGame& gameBoard, char & player);
-        int checkDiagnonal(const BoardFieldGame& gameBoard, char & player);
+        int checkDiagonal(const BoardFieldGame& gameBoard, char & player);
         int checkAntiDiagonal(const BoardFieldGame& gameBoard, char & player);
 
 

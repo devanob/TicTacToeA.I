@@ -102,9 +102,9 @@ int AIPlayerTicTacToe::evalutaionFunciton(const BoardFieldGame &currentBoard)
 }
 /**
  * @brief 
- * 
- * @param childBoard 
- * @return int 
+ * Return a eval score from the perspective of  max player 
+ * @param childBoard -  a current intance of a board
+ * @return int - return the evaluation score
  */
 int AIPlayerTicTacToe::maxValue(BoardFieldGame &childBoard)
 {
@@ -120,9 +120,15 @@ int AIPlayerTicTacToe::maxValue(BoardFieldGame &childBoard)
     return nodeValue;
 }
 
+/**
+ * @brief 
+ * Return a eval score from the perspective of min player 
+ * @param childBoard -  a current intance of a board
+ * @return int - return the evaluation score
+ */
 int AIPlayerTicTacToe::minValue(BoardFieldGame &childBoard)
 {
-    if (terminalStateOrDepthBound(childBoard)){
+    if (terminalStateOrDepthBound(childBoard)){ // check if player  game has ended due to a player win or depth bound 
         return evalutaionFunciton(childBoard);
     }
     int nodeValue = std::numeric_limits<int>::max(); // set to -inf or min(int)
@@ -133,7 +139,13 @@ int AIPlayerTicTacToe::minValue(BoardFieldGame &childBoard)
     }
     return nodeValue;
 }
-
+/**
+ * @brief 
+ * Check if a ending state has been reach either through a win, draw , loss or depth bound 
+ * @param childBoard - instance of a board
+ * @return true - game as ended 
+ * @return false - game is ongoing
+ */
 bool AIPlayerTicTacToe::terminalStateOrDepthBound(BoardFieldGame &childBoard)
 {
     auto WinLossState = childBoard.isGameState();
@@ -151,14 +163,26 @@ bool AIPlayerTicTacToe::terminalStateOrDepthBound(BoardFieldGame &childBoard)
         return false; // game is still ongoing
     }
 }
-
+/**
+ * @brief 
+ * An Evaluation heuristic that conciders possible winning moves as a score
+ * @param gameBoard - instance of a board game 
+ * @param player  - the player to calculate the hueristic for 
+ * @return int - evaluation score 
+ */
 int AIPlayerTicTacToe::heuristic(const BoardFieldGame &gameBoard, char &player)
 {
     //check everything return the count
     return checkRow(gameBoard,player) + checkColumns(gameBoard,player) +
-            + checkDiagnonal(gameBoard, player) + checkAntiDiagonal(gameBoard,player);
+            + checkDiagonal(gameBoard, player) + checkAntiDiagonal(gameBoard,player);
 }
-//check rows
+/**
+ * @brief 
+ * Check Winning Moves Across The Row For The currentplayer
+ * @param gameBoard - instance of a board game
+ * @param player - player symbol 
+ * @return int - evalutation score 
+ */
 int AIPlayerTicTacToe::checkRow(const BoardFieldGame &gameBoard, char &player)
 {
     int countWinningSpot = 0;
@@ -188,7 +212,13 @@ int AIPlayerTicTacToe::checkRow(const BoardFieldGame &gameBoard, char &player)
     }// END ROW
     return countWinningSpot;
 }
-//check  colums
+/**
+ * @brief 
+ * Check Winning Moves Across The  columns  For The currentplayer
+ * @param gameBoard - instance of a board game
+ * @param player - player symbol 
+ * @return int - evalutation score 
+ */
 int AIPlayerTicTacToe::checkColumns(const BoardFieldGame &gameBoard, char &player)
 {
     char FirstInstance = BLANK;
@@ -219,8 +249,14 @@ int AIPlayerTicTacToe::checkColumns(const BoardFieldGame &gameBoard, char &playe
     return countWinningSpot;
 
 }
-
-int AIPlayerTicTacToe::checkDiagnonal(const BoardFieldGame &gameBoard, char &player)
+/**
+ * @brief 
+ * Check Winning Moves Across The  diagonals  For The currentplayer
+ * @param gameBoard - instance of a board game
+ * @param player - player symbol 
+ * @return int - evalutation score 
+ */
+int AIPlayerTicTacToe::checkDiagonal(const BoardFieldGame &gameBoard, char &player)
 {
     //Time To Check diagnonals
     char FirstInstance = BLANK;
@@ -246,6 +282,13 @@ int AIPlayerTicTacToe::checkDiagnonal(const BoardFieldGame &gameBoard, char &pla
     return  countWinningSpot;
 }
 
+/**
+ * @brief 
+ * Check Winning Moves Across The  anti-diagonals  For The currentplayer
+ * @param gameBoard - instance of a board game
+ * @param player - player symbol 
+ * @return int - evalutation score 
+ */
 int AIPlayerTicTacToe::checkAntiDiagonal(const BoardFieldGame &gameBoard, char &player)
 {
     //Time To Check AntiDiagonal
