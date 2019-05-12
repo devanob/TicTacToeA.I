@@ -1,5 +1,9 @@
 #include "BoardFieldGameState.h"
 #include <iostream>
+/**
+ * @brief Construct a new Board Field Game:: Board Field Game object
+ * 
+ */
 BoardFieldGame::BoardFieldGame()
 {
     this->row_played = 0;
@@ -12,7 +16,11 @@ BoardFieldGame::BoardFieldGame()
     this->depth =0;//depth always start off as zero as a rule
 
 }
-
+/**
+ * @brief Construct a new Board Field Game:: Board Field Game object- Copy Contructor
+ * 
+ * @param boardState - a board instance to be copied from or target
+ */
 BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState)
 {
     //Copy Contructor//
@@ -24,7 +32,13 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState)
 
 
 }
-
+/**
+ * @brief Copy Operator
+ * 
+ * @param boardState -a board instance to be copied from or target
+ *
+ * @return BoardFieldGame& 
+ */
 BoardFieldGame & BoardFieldGame::operator =(const BoardFieldGame &boardState)
 {
     //Copy Contructor//
@@ -34,7 +48,11 @@ BoardFieldGame & BoardFieldGame::operator =(const BoardFieldGame &boardState)
     this->utilityValue = boardState.utilityValue;
     return *this;
 }
-
+/**
+ * @brief Construct a new Board Field Game:: Board Field Game object Move Contructor
+ * 
+ * @param boardState -a board instance to be copied from or target
+ */
 BoardFieldGame::BoardFieldGame(BoardFieldGame &&boardState)
 {
     //Move Contructor//
@@ -44,7 +62,12 @@ BoardFieldGame::BoardFieldGame(BoardFieldGame &&boardState)
     this->utilityValue = std::move(boardState.utilityValue);
 
 }
-
+/**
+ * @brief - Move Operator 
+ * 
+ * @param boardState -a board instance to be copied from or target
+ * @return BoardFieldGame& returns a reference to this instance
+ */
 BoardFieldGame &BoardFieldGame::operator =(BoardFieldGame &&boardState)
 {
     //Move operator//
@@ -55,7 +78,14 @@ BoardFieldGame &BoardFieldGame::operator =(BoardFieldGame &&boardState)
     return *this;
 
 }
-
+/**
+ * @brief Construct a new Board Field Game:: Board Field Game object given a row, colum and player character symbol
+ * 
+ * @param boardState -a board instance to be copied from or target
+ * @param row - which row was played
+ * @param column - whoch column was played 
+ * @param playerCharcter - player character symbol 
+ */
 BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState, unsigned int row, unsigned int column, char playerCharcter)
 {
     //Copy Contructor//
@@ -63,7 +93,7 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState, unsigned int ro
     this->column_played = boardState.column_played;
     this->gameBoard = boardState.gameBoard;
     this->utilityValue = boardState.utilityValue;
-    //Player playerCharacter At Row
+    //Player playerCharacter At Row, Column 
     gameBoard[row][column] = playerCharcter;
     this->row_played = row;
     this->column_played = column;
@@ -71,7 +101,13 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState, unsigned int ro
     //
 
 }
-
+/**
+ * @brief - Play A Character At row and column in the player space
+ * 
+ * @param row  - row to be played 
+ * @param column  - column to be played 
+ * @param playerCharcter - player symbol 
+ */
 void  BoardFieldGame::playAt(unsigned int row, unsigned int column, char playerCharcter)
 {
     //If the move is legal then play playerCharacter At row, colum
@@ -83,7 +119,10 @@ void  BoardFieldGame::playAt(unsigned int row, unsigned int column, char playerC
         throw std::runtime_error("You Cannot Play There Another Tile Has Already Taken");
     }
 }
-
+/**
+ * @brief Draw An Instance Of The Board - XO Board 
+ * 
+ */
 void BoardFieldGame::drawBoard()
 {
     std::cout <<std::endl<<"---------------------------------" <<std::endl;
@@ -109,22 +148,31 @@ void BoardFieldGame::drawBoard()
     }
     std::cout <<std::endl<<"---------------------------------" <<std::endl;
 }
-
+/**
+ * @brief - Generates A Set Of Possilbe Moves Given A Player Character
+ * 
+ * @param playerCharcter 
+ * @return std::vector<std::unique_ptr<BoardFieldGame> > 
+ */
 std::vector<std::unique_ptr<BoardFieldGame> > BoardFieldGame::generateStates(char playerCharcter) const
 {
-    std::vector<std::unique_ptr<BoardFieldGame>> movesSet;
-    for (unsigned int  row =  0 ; row < gameBoard.size() ; row++){
-        for (unsigned int column = 0 ; column < gameBoard.size() ; column++){
+    std::vector<std::unique_ptr<BoardFieldGame>> movesSet; //empty vector of BoardFieldGames
+    for (unsigned int  row =  0 ; row < gameBoard.size() ; row++){ //Lopps Through each Row 
+        for (unsigned int column = 0 ; column < gameBoard.size() ; column++){ //Loop through each colum
             if (gameBoard[row][column] == BLANK){ // if we have a free spot generate a possible outcome
                 std::unique_ptr<BoardFieldGame> gameState(new BoardFieldGame(*this,row,column, playerCharcter));
-                movesSet.push_back(std::move(gameState));
+                movesSet.push_back(std::move(gameState)); //add this to a vector of valid moves
             }
         }
     }
-    return std::move(movesSet);
+    return std::move(movesSet); // move the board fields out 
 
 }
-
+/**
+ * @brief - A Check if player has won or a draw is found  or if the game is on going 
+ * 
+ * @return char - return the wining  symbol the draw on or the ongoing symbol 
+ */
 char BoardFieldGame::isGameState() const
 {
 
@@ -181,36 +229,68 @@ char BoardFieldGame::isGameState() const
      return DRAW;
 
 }
-
+/**
+ * @brief - returns the board utility value
+ * 
+ * @return int - return an int representing the utility values of this board instance
+ */
 int BoardFieldGame::getUtilityValue() const
 {
     return utilityValue;
 }
-
+/**
+ * @brief 
+ * Sets The Utility Value 
+ * @param value - value to set the utility values
+ */
 void BoardFieldGame::setUtilityValue(int value)
 {
     utilityValue = value;
 }
+/**
+ * @brief 
+ * Wrapper To get the value in  The Grid At row and column 
+ * @param row  - row 
+ * @param column - columnn 
+ * @return const char& - return const reference to this internel  value at row and column
+ */
 const char& BoardFieldGame::at(unsigned int &row, unsigned int &column) const
 {
     //might throw an exception if index bound  is beyond capicity//
     return gameBoard.at(row).at(column);
 }
-
+/**
+ * @brief Return The Row Played At 
+ * 
+ * @return unsigned int 
+ */
 unsigned int BoardFieldGame::getRow_played() const
 {
     return row_played;
 }
-
+/**
+ * @brief 
+ * Return The Row Played At Columnn
+ * @return unsigned int 
+ */
 unsigned int BoardFieldGame::getColumn_played() const
 {
     return column_played;
 }
-
+/**
+ * @brief -Get Depth Of The Current Board
+ * 
+ * @return unsigned int 
+ */
 unsigned int BoardFieldGame::getDepth() const
 {
     return depth;
 }
+/**
+ * @brief Sets The depth of this baord instance
+ * 
+ * @param value 
+ */
 
 void BoardFieldGame::setDepth(unsigned int value)
 {
