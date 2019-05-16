@@ -14,7 +14,7 @@ void match(int matchCount, bool printStages){
     AIPlayerTicTacToe PlayerOne('X','O',3);
     //
     int playerTwoID = 1;
-    AIPlayerTicTacToe PlayerTwo('O','X',1);
+    AIPlayerTicTacToe PlayerTwo('O','X',5);
     //
     int playerTurn = playerOneID;
     AIPlayerTicTacToe*  playersPtr[2];
