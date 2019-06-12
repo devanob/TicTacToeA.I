@@ -16,7 +16,7 @@ CC            = /Library/Developer/CommandLineTools/usr/bin/clang
 CXX           = /Library/Developer/CommandLineTools/usr/bin/clang++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -stdlib=libc++ -g -std=gnu++1y $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -stdlib=libc++ -g -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -fPIC $(DEFINES)
 INCPATH       = -I../../qt/cm/TicTacToe -I. -I../../../../Qt5.12.3/5.12.3/clang_64/lib/QtQuick.framework/Headers -I../../../../Qt5.12.3/5.12.3/clang_64/lib/QtGui.framework/Headers -I../../../../Qt5.12.3/5.12.3/clang_64/lib/QtQml.framework/Headers -I../../../../Qt5.12.3/5.12.3/clang_64/lib/QtNetwork.framework/Headers -I../../../../Qt5.12.3/5.12.3/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode10.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode10.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AGL.framework/Headers/ -I../../../../Qt5.12.3/5.12.3/clang_64/mkspecs/macx-clang -F/Users/Lola/Qt5.12.3/5.12.3/clang_64/lib
 QMAKE         = /Users/Lola/Qt5.12.3/5.12.3/clang_64/bin/qmake
 DEL_FILE      = rm -f
@@ -54,13 +54,13 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../../qt/cm/TicTacToe/BoardFieldGameState.cpp \
 		../../qt/cm/TicTacToe/AIPlayerTicTacToe.cpp \
-		../../qt/cm/TicTacToe/TicTacController.cpp \
-		../../qt/cm/TicTacToe/main.cpp qrc_qml.cpp \
+		../../qt/cm/TicTacToe/main.cpp \
+		../../qt/cm/TicTacToe/main1.cpp qrc_qml.cpp \
 		moc_TicTacController.cpp
 OBJECTS       = BoardFieldGameState.o \
 		AIPlayerTicTacToe.o \
-		TicTacController.o \
 		main.o \
+		main1.o \
 		qrc_qml.o \
 		moc_TicTacController.o
 DIST          = ../../../Qt5.12.3/5.12.3/clang_64/mkspecs/features/spec_pre.prf \
@@ -238,8 +238,8 @@ DIST          = ../../../Qt5.12.3/5.12.3/clang_64/mkspecs/features/spec_pre.prf 
 		../../qt/cm/TicTacToe/AIPlayerTicTacToe.h \
 		../../qt/cm/TicTacToe/TicTacController.h ../../qt/cm/TicTacToe/BoardFieldGameState.cpp \
 		../../qt/cm/TicTacToe/AIPlayerTicTacToe.cpp \
-		../../qt/cm/TicTacToe/TicTacController.cpp \
-		../../qt/cm/TicTacToe/main.cpp
+		../../qt/cm/TicTacToe/main.cpp \
+		../../qt/cm/TicTacToe/main1.cpp
 QMAKE_TARGET  = TicTacToe
 DESTDIR       = 
 TARGET        = TicTacToe.app/Contents/MacOS/TicTacToe
@@ -651,7 +651,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents ../../qt/cm/TicTacToe/qml.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../Qt5.12.3/5.12.3/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../qt/cm/TicTacToe/BoardFieldGameState.h ../../qt/cm/TicTacToe/AIPlayerTicTacToe.h ../../qt/cm/TicTacToe/TicTacController.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../qt/cm/TicTacToe/BoardFieldGameState.cpp ../../qt/cm/TicTacToe/AIPlayerTicTacToe.cpp ../../qt/cm/TicTacToe/TicTacController.cpp ../../qt/cm/TicTacToe/main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../qt/cm/TicTacToe/BoardFieldGameState.cpp ../../qt/cm/TicTacToe/AIPlayerTicTacToe.cpp ../../qt/cm/TicTacToe/main.cpp ../../qt/cm/TicTacToe/main1.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -686,23 +686,21 @@ qrc_qml.cpp: ../../qt/cm/TicTacToe/qml.qrc \
 		../../qt/cm/TicTacToe/Menue.qml \
 		../../qt/cm/TicTacToe/CELL.qml \
 		../../qt/cm/TicTacToe/main.qml \
-		../../../../Downloads/x-cross-scribble-by-Vexels.svg \
-		../../../../Downloads/circle-doodle-by-Vexels.svg \
-		../../../../Downloads/thin-circle-scribble-by-Vexels.svg
+		../../Downloads/x-cross-scribble-by-Vexels.svg \
+		../../Downloads/circle-doodle-by-Vexels.svg \
+		../../Downloads/thin-circle-scribble-by-Vexels.svg
 	/Users/Lola/Qt5.12.3/5.12.3/clang_64/bin/rcc -name qml ../../qt/cm/TicTacToe/qml.qrc -o qrc_qml.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: ../../../../Qt5.12.3/5.12.3/clang_64/mkspecs/features/data/dummy.cpp
-	/Library/Developer/CommandLineTools/usr/bin/clang++ -pipe -stdlib=libc++ -g -std=gnu++1y $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -dM -E -o moc_predefs.h ../../../../Qt5.12.3/5.12.3/clang_64/mkspecs/features/data/dummy.cpp
+	/Library/Developer/CommandLineTools/usr/bin/clang++ -pipe -stdlib=libc++ -g -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -dM -E -o moc_predefs.h ../../../../Qt5.12.3/5.12.3/clang_64/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: moc_TicTacController.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_TicTacController.cpp
 moc_TicTacController.cpp: ../../qt/cm/TicTacToe/TicTacController.h \
-		../../qt/cm/TicTacToe/AIPlayerTicTacToe.h \
-		../../qt/cm/TicTacToe/BoardFieldGameState.h \
 		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		moc_predefs.h \
@@ -732,25 +730,20 @@ AIPlayerTicTacToe.o: ../../qt/cm/TicTacToe/AIPlayerTicTacToe.cpp ../../qt/cm/Tic
 		../../qt/cm/TicTacToe/BoardFieldGameState.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AIPlayerTicTacToe.o ../../qt/cm/TicTacToe/AIPlayerTicTacToe.cpp
 
-TicTacController.o: ../../qt/cm/TicTacToe/TicTacController.cpp ../../qt/cm/TicTacToe/TicTacController.h \
-		../../qt/cm/TicTacToe/AIPlayerTicTacToe.h \
-		../../qt/cm/TicTacToe/BoardFieldGameState.h \
-		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtCore.framework/Headers/qobject.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TicTacController.o ../../qt/cm/TicTacToe/TicTacController.cpp
-
 main.o: ../../qt/cm/TicTacToe/main.cpp ../../../../Qt5.12.3/5.12.3/clang_64/lib/QtGui.framework/Headers/QGuiApplication \
 		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtGui.framework/Headers/qguiapplication.h \
 		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtQml.framework/Headers/QQmlApplicationEngine \
 		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtQml.framework/Headers/qqmlapplicationengine.h \
 		../../qt/cm/TicTacToe/TicTacController.h \
-		../../qt/cm/TicTacToe/AIPlayerTicTacToe.h \
-		../../qt/cm/TicTacToe/BoardFieldGameState.h \
 		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtQml.framework/Headers/QQmlContext \
 		../../../../Qt5.12.3/5.12.3/clang_64/lib/QtQml.framework/Headers/qqmlcontext.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../qt/cm/TicTacToe/main.cpp
+
+main1.o: ../../qt/cm/TicTacToe/main1.cpp ../../qt/cm/TicTacToe/BoardFieldGameState.h \
+		../../qt/cm/TicTacToe/AIPlayerTicTacToe.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main1.o ../../qt/cm/TicTacToe/main1.cpp
 
 qrc_qml.o: qrc_qml.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_qml.o qrc_qml.cpp
@@ -771,21 +764,9 @@ uninstall_target: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/opt/TicTacToe/bin/ 
 
 
-install_target: first FORCE
-	@test -d $(INSTALL_ROOT)/opt/TicTacToe/bin || mkdir -p $(INSTALL_ROOT)/opt/TicTacToe/bin
-	$(DEL_FILE) -r $(INSTALL_ROOT)/opt/TicTacToe/bin/TicTacToe.app
-	
-	-$(QINSTALL) TicTacToe.app $(INSTALL_ROOT)/opt/TicTacToe/bin/TicTacToe.app
+install: install_target  FORCE
 
-uninstall_target: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/opt/TicTacToe/bin/TicTacToe.app 
-	 -$(DEL_FILE) -r $(INSTALL_ROOT)/opt/TicTacToe/bin/TicTacToe.app
-	-$(DEL_DIR) $(INSTALL_ROOT)/opt/TicTacToe/bin/ 
-
-
-install: install_target install_target  FORCE
-
-uninstall: uninstall_target uninstall_target  FORCE
+uninstall: uninstall_target  FORCE
 
 FORCE:
 
