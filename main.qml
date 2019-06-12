@@ -7,8 +7,8 @@ import QtGraphicalEffects 1.0
 Window {
     id: window
     visible: true
-    width: 600
-    height: 600
+    width: 800
+    height: 800
     color: "#7ae6f3"
     opacity: 1
     title: qsTr("Hello World")
@@ -31,18 +31,18 @@ Window {
         //Signal
         signal trigger
         height: 500
-        color: "#ede9e9"
+        color: "#ed5656"
         Grid {
             id: grid
+            anchors.fill: parent
             flow: Grid.LeftToRight
             layoutDirection: Qt.LeftToRight
-            anchors.fill: parent
 
-            rows: TicTacToaController.rowCount;
-            columns: TicTacToaController.columnCount;
+            rows: TicTacToaController.gridCount;
+            columns: TicTacToaController.gridCount;
             spacing: 5
 
-            Repeater {   model: grid.rows* grid.columns
+            Repeater {   model: grid.rows * grid.columns
                 id:repeater1
                 Rectangle {
                     id:rect1
@@ -143,6 +143,10 @@ Window {
 
 
 }
+
+
+
+
 
 
 

@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     //Register Controller As Type
     qmlRegisterType<TicTacController>("CM", 1 , 0 , "TicTacController");
-    TicTacController masterController(nullptr,3,3);
+    TicTacController masterController(nullptr,3);
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("TicTacToaController", &masterController);
     const QUrl url(QStringLiteral("qrc:/main.qml"));

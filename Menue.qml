@@ -68,12 +68,12 @@ Rectangle {
             SpinBox {
                 id: spinBox
                 from: 3
-                value: TicTacToaController.rowCount
+                value: TicTacToaController.gridCount
                 spacing: -6
                 to: 10
                 onValueChanged: {
-                    TicTacToaController.rowCount = parseInt(value)
-                    TicTacToaController.columnCount = parseInt(value)
+                    TicTacToaController.gridCount = parseInt(value)
+
 
                 }
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBaseline

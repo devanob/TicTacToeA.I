@@ -1,15 +1,15 @@
 #include "TicTacController.h"
 
-TicTacController::TicTacController(QObject *parent, const int row, const int column) : QObject(parent)
+TicTacController::TicTacController(QObject *parent, const unsigned int gridCount) : QObject(parent)
 {
-    this->setRows(row);
-    this->setColumns(column);
+    this->gridSize = gridCount;
+    std::cout << "Constuctor" << gridCount << std::endl;
     this->setPlayerSymbol('X');
     this->setAiSymbol('O');
-    this->gameState = std::unique_ptr<BoardFieldGame>(new BoardFieldGame(getRows()));
+    this->gameState = std::unique_ptr<BoardFieldGame>(new BoardFieldGame(getGridSize()));
     this->aImplement =
             std::unique_ptr<AIPlayerTicTacToe>(
-                new AIPlayerTicTacToe(getAiSymbol(),getPlayerSymbol(),3));
+                new AIPlayerTicTacToe(getAiSymbol(),getPlayerSymbol(),5));
     this->setPlayLock(true);
 
 }
@@ -68,7 +68,15 @@ unsigned int TicTacController::getGridSize() const
 
 void TicTacController::setGridSize(unsigned int value)
 {
-    gridSize = value;
+    if (value != this->gridSize){
+        gridSize = value;
+//        std::cout << "setGridSizeL" << std::endl;
+//        std::cout << getGridSize() << std::endl;
+//        std::cout << gameState.get() << std::endl;
+        this->gameState->setGridSize(getGridSize());
+        reset();
+        emit gridChanged();
+    }
 }
 
 bool TicTacController::getPlayLock() const
@@ -96,6 +104,7 @@ void TicTacController::humanPlayerAt(const unsigned int row, const unsigned int 
         unsigned int columnAI;
         this->aImplement->playPosition(*gameState,rowAI,columnAI);
         std::cout<< "here"<<std::endl;
+
         this->gameState->playAt(rowAI,columnAI,this->getAiSymbol());
         if (this->gameState->isGameState() == ONGOING){
             this->setPlayLock(true);
