@@ -1,5 +1,5 @@
 QT += quick
-CONFIG += c++11
+CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -15,8 +15,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     BoardFieldGameState.cpp \
     AIPlayerTicTacToe.cpp \
-    main.cpp \
-    main1.cpp
+    TicTacController.cpp \
+    main.cpp
     TicTacController.cpp \
 
 
@@ -37,4 +37,15 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    ../../../Downloads/circle-doodle-by-Vexels.svg \
+    ../../../Downloads/thin-circle-scribble-by-Vexels.svg \
+    ../../../Downloads/x-cross-scribble-by-Vexels.svg
 

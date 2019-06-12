@@ -12,10 +12,13 @@ class AIPlayerTicTacToe
         AIPlayerTicTacToe(const char& playeSymbol, const char& opponetSymbol, const unsigned int &maxDept);
         //specifiy where this plays return as a row , colum in the Board, given a copy of the board
         bool play(BoardFieldGame &currentBoard);
+        bool playPosition(BoardFieldGame &currentBoard, unsigned int & row, unsigned int & column);
         char getMaxPlayer() const;
         void setMaxPlayer(char value);
 
-private:
+
+    private:
+        //he
         char maxPlayer; // the charcter of this player
         char minOpponet; // the character of your opponet
         unsigned int maxdepth; // depth of the search space before temrinal
@@ -37,11 +40,6 @@ private:
         int checkColumns(const BoardFieldGame& gameBoard, char & player);
         int checkDiagonal(const BoardFieldGame& gameBoard, char & player);
         int checkAntiDiagonal(const BoardFieldGame& gameBoard, char & player);
-
-
-
-
-
 };
 
 #endif // AIPLAYERTICTACTOE_H

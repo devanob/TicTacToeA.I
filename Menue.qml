@@ -23,7 +23,8 @@ Rectangle {
 
     Row {
         id: row
-        width: 428
+        width: 250
+        height: 56
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         anchors.top: parent.top
@@ -44,11 +45,14 @@ Rectangle {
             spacing: 0
             clip: true
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: {
+                TicTacToaController.reset();
+            }
         }
 
         Label {
             id: label_row
-            text: qsTr("Rows:")
+            text: qsTr("BoardSize:")
             anchors.verticalCenter: parent.verticalCenter
         }
 
@@ -63,10 +67,13 @@ Rectangle {
 
             SpinBox {
                 id: spinBox
-                to: 10
+                from: 3
                 value: TicTacToaController.rowCount
+                spacing: -6
+                to: 10
                 onValueChanged: {
                     TicTacToaController.rowCount = parseInt(value)
+                    TicTacToaController.columnCount = parseInt(value)
 
                 }
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBaseline
@@ -74,33 +81,7 @@ Rectangle {
             }
         }
 
-        Label {
-            id: label_colmn
-            text: qsTr("Column:")
-            anchors.verticalCenter: parent.verticalCenter
-        }
 
-        ColumnLayout {
-            id: columnLayout1
-            width: 100
-            anchors.topMargin: 0
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-
-            SpinBox {
-                id: spinBox1
-                to: 10
-                from: 0
-                value: TicTacToaController.columnCount
-                onValueChanged: {
-                    TicTacToaController.columnCount = parseInt(value)
-
-
-                }
-                Layout.fillWidth: true
-            }
-        }
 
 
     }
@@ -109,6 +90,12 @@ Rectangle {
 
 
 }
+
+
+
+
+
+
 
 
 

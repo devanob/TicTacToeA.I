@@ -24,10 +24,10 @@ bool AIPlayerTicTacToe::play(BoardFieldGame &currentBoard)
 {
     try {
 
-    BoardFieldGame copyGameState = currentBoard;//get a copy of the current board
-    auto bestMove = MiniMAxDecision(currentBoard); // calculate the best move
-    currentBoard.playAt(bestMove.getRow_played(),bestMove.getColumn_played(),maxPlayer);//play at our best spot
-    return true;
+        BoardFieldGame copyGameState = currentBoard;//get a copy of the current board
+        auto bestMove = MiniMAxDecision(currentBoard); // calculate the best move
+        currentBoard.playAt(bestMove.getRow_played(),bestMove.getColumn_played(),maxPlayer);//play at our best spot
+        return true;
     }
     catch(std::exception& expt){
         //We werent able to lay for some reason
@@ -35,6 +35,26 @@ bool AIPlayerTicTacToe::play(BoardFieldGame &currentBoard)
         return false;
     }
 
+}
+
+bool AIPlayerTicTacToe::playPosition(BoardFieldGame &currentBoard, unsigned int &row, unsigned int &column)
+{
+    try {
+
+        BoardFieldGame copyGameState = currentBoard;//get a copy of the current board
+        auto bestMove = MiniMAxDecision(currentBoard); // calculate the best move
+        //set the best moves
+        row = bestMove.getRow_played();
+        column = bestMove.getColumn_played();
+
+        return true;
+    }
+    catch(std::exception& expt){
+        //We werent able to lay for some reason
+        //Debugging Purposes
+        std::cout << expt.what();
+        return false;
+    }
 }
 /**
  * @brief - return the char symbol of the max player 
@@ -54,6 +74,8 @@ void AIPlayerTicTacToe::setMaxPlayer(char value)
 {
     maxPlayer = value;
 }
+
+
 /**
  * @brief -Passed In A copy of the current board using the MinMax Algo With Dept Bound To Find The Best Move
  * 
@@ -74,7 +96,7 @@ BoardFieldGame AIPlayerTicTacToe::MiniMAxDecision(const BoardFieldGame &currentB
                                  []( const std::unique_ptr<BoardFieldGame> &left, const std::unique_ptr<BoardFieldGame> &right )
                                  {
                                      return left->getUtilityValue() < right->getUtilityValue();
-                                 } );
+                                 });
     return std::move(*(*max));//return the best move theorically
 
 }
@@ -189,8 +211,8 @@ int AIPlayerTicTacToe::checkRow(const BoardFieldGame &gameBoard, char &player)
     char FirstInstance = BLANK;
     int numTypeLine= 0;
     //chech each row for winning spots
-    for (unsigned int row = 0 ; row < GRIDSIZE; row++){//Row
-        for (unsigned int column = 0 ; column < GRIDSIZE; column++){
+    for (unsigned int row = 0 ; row < gameBoard.getGridSize(); row++){//Row
+        for (unsigned int column = 0 ; column < gameBoard.getGridSize(); column++){
             if (gameBoard.at(row,column) != BLANK){//BLANK CHECK
                 if (numTypeLine == 0 ){ //CHECK NO TYPE DETECTED
                     numTypeLine++;
@@ -225,8 +247,8 @@ int AIPlayerTicTacToe::checkColumns(const BoardFieldGame &gameBoard, char &playe
     int numTypeLine= 0;
     int countWinningSpot = 0;
     //check column for win
-    for (unsigned int column = 0 ; column < GRIDSIZE; column++){//Row
-        for (unsigned int row = 0 ; row< GRIDSIZE; row++){
+    for (unsigned int column = 0 ; column < gameBoard.getGridSize(); column++){//Row
+        for (unsigned int row = 0 ; row< gameBoard.getGridSize(); row++){
             if (gameBoard.at(row,column) != BLANK){//BLANK CHECK
                 if (numTypeLine == 0 ){ //CHECK NO TYPE DETECTED
                     numTypeLine++;
@@ -262,7 +284,7 @@ int AIPlayerTicTacToe::checkDiagonal(const BoardFieldGame &gameBoard, char &play
     char FirstInstance = BLANK;
     int numTypeLine= 0;
     int countWinningSpot = 0;
-    for (unsigned int item = 0 ; item < GRIDSIZE; item++){//Row
+    for (unsigned int item = 0 ; item < gameBoard.getGridSize(); item++){//Row
 
         if (gameBoard.at(item,item) != BLANK){//BLANK CHECK
                        if (numTypeLine == 0 ){ //CHECK NO TYPE DETECTED
@@ -295,9 +317,9 @@ int AIPlayerTicTacToe::checkAntiDiagonal(const BoardFieldGame &gameBoard, char &
     int FirstInstance = BLANK;
     int numTypeLine= 0;
     int countWinningSpot = 0;
-    for (unsigned int row = 0 ; row < GRIDSIZE && numTypeLine < 2;  row++){
-        for(unsigned int column = 0 ; column < GRIDSIZE;  column++){
-            if ((row + column) == (GRIDSIZE - 1) ){ //check anti diagonal
+    for (unsigned int row = 0 ; row < gameBoard.getGridSize() && numTypeLine < 2;  row++){
+        for(unsigned int column = 0 ; column < gameBoard.getGridSize();  column++){
+            if ((row + column) == (gameBoard.getGridSize() - 1) ){ //check anti diagonal
                 if (gameBoard.at(row,column) != BLANK){//BLANK CHECK
                                if (numTypeLine == 0 ){ //CHECK NO TYPE DETECTED
                                    numTypeLine++;

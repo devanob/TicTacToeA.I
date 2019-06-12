@@ -4,9 +4,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 
-
-
-
 Window {
     id: window
     visible: true
@@ -70,7 +67,7 @@ Window {
                         hoverEnabled: true
                         anchors.fill: parent
                         onClicked: {
-                            if(!rect1.isPlayed){
+                            if(!rect1.isPlayed && TicTacToaController.playLock){
                                 //console.log(repeater1.itemAt(index))
                                 if (TicTacToaController.playerSymbol ==='O'.charCodeAt(0)){
 
@@ -87,25 +84,29 @@ Window {
                             }
 
                         }
-                       Connections{
-                           target: TicTacToaController
-                           onAIplayer : {
+                        Connections{
+                            target: TicTacToaController
+                            onAIplayer : {
 
-                              if (rect1.cellRow == row && rect1.cellColumn == column && !rect1.isPlayed ){
-                                  if (TicTacToaController.playerSymbol !=='O'.charCodeAt(0)){
+                                if (rect1.cellRow == row && rect1.cellColumn == column && !rect1.isPlayed ){
+                                    if (TicTacToaController.playerSymbol !=='O'.charCodeAt(0)){
 
-                                      image.source = "../../../../Downloads/circle-doodle-by-Vexels.svg";
-                                      //rect1.color = "blue";
-                                  }
-                                  else {
-                                      image.source = "../../../../Downloads/x-cross-scribble-by-Vexels.svg";
-                                      //rect1.color= "red";
-                                  }
-                                  rect1.isPlayed=  true;
-                              }
+                                        image.source = "../../../../Downloads/circle-doodle-by-Vexels.svg";
+                                        //rect1.color = "blue";
+                                    }
+                                    else {
+                                        image.source = "../../../../Downloads/x-cross-scribble-by-Vexels.svg";
+                                        //rect1.color= "red";
+                                    }
+                                    rect1.isPlayed=  true;
+                                }
 
+                            }
+                           onResetSignifier:{
+                            rect1.isPlayed = false;
+                            image.source ="";
+                           }
                         }
-                     }
 
 
 
@@ -119,6 +120,7 @@ Window {
                             id: image
                             anchors.fill: parent
                             fillMode: Image.PreserveAspectFit
+                            asynchronous : false
                         }
                     }
 
@@ -432,8 +434,12 @@ Window {
 
 
 
+
+
+
+
 /*##^## Designer {
-    D{i:2;anchors_height:269;anchors_width:293;anchors_x:5;anchors_y:5}D{i:1;anchors_height:500;anchors_width:500;anchors_x:0;anchors_y:0}
-D{i:9;anchors_height:200;anchors_width:200;anchors_x:200;anchors_y:543}D{i:10;anchors_width:428}
+    D{i:9;anchors_height:200;anchors_width:200;anchors_x:200;anchors_y:543}D{i:2;anchors_height:269;anchors_width:293;anchors_x:5;anchors_y:5}
+D{i:1;anchors_height:500;anchors_width:500;anchors_x:0;anchors_y:0}D{i:10;anchors_width:428}
 }
  ##^##*/

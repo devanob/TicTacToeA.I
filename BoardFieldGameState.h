@@ -7,8 +7,6 @@
 #define WON 1
 #define DRAW '-'
 #define ONGOING '|'
-
-#define GRIDSIZE 3
 #define BLANK '*'
 #include <memory>
 #include <algorithm>
@@ -17,10 +15,14 @@
 
 #include <limits>
 //Limits
+/**
+ * @brief The BoardFieldGame class- Represent A Board Instance
+ */
 class BoardFieldGame
 {
+
     public:
-        BoardFieldGame();
+        BoardFieldGame(unsigned int gridSize = 3);
         //Copy contructor and copy operator
         BoardFieldGame(const BoardFieldGame& boardState) ;
         BoardFieldGame& operator =(const BoardFieldGame& boardState);
@@ -57,6 +59,14 @@ class BoardFieldGame
          unsigned int getDepth() const;
          void setDepth(unsigned int value);
 
+         void reset();
+
+         //Getter And Setter Funciton
+
+
+         unsigned int getGridSize() const;
+         void setGridSize(unsigned int value);
+
 private:
          int utilityValue;
          unsigned int depth;
@@ -66,6 +76,9 @@ private:
         //End 
         //Data Structure Board
          std::vector<std::vector<char>> gameBoard;
+         unsigned int gridSize;
+
+
         
         
 

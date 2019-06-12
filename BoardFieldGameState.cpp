@@ -4,12 +4,13 @@
  * @brief Construct a new Board Field Game:: Board Field Game object
  * 
  */
-BoardFieldGame::BoardFieldGame()
+BoardFieldGame::BoardFieldGame(unsigned int gridSize)
 {
     this->row_played = 0;
     this->column_played= 0;
+    this->setGridSize(gridSize);
     //Intialize With All Blanks
-    std::vector<std::vector<char> > internalDat(GRIDSIZE,std::vector<char>(GRIDSIZE,BLANK));
+    std::vector<std::vector<char> > internalDat(this->gridSize,std::vector<char>(this->gridSize,BLANK));
     //Set Board Game Data Structure
     this->gameBoard = std::move(internalDat);
     this->utilityValue = 0;
@@ -29,6 +30,7 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState)
     this->gameBoard = boardState.gameBoard;
     this->utilityValue = boardState.utilityValue;
     this->depth = boardState.depth;
+    this->setGridSize(boardState.getGridSize());
 
 
 }
@@ -46,6 +48,7 @@ BoardFieldGame & BoardFieldGame::operator =(const BoardFieldGame &boardState)
     this->column_played = boardState.column_played;
     this->gameBoard = boardState.gameBoard;
     this->utilityValue = boardState.utilityValue;
+    this->setGridSize(boardState.gridSize);
     return *this;
 }
 /**
@@ -60,7 +63,8 @@ BoardFieldGame::BoardFieldGame(BoardFieldGame &&boardState)
     this->column_played = std::move(boardState.column_played);
     this->gameBoard = std::move(boardState.gameBoard);
     this->utilityValue = std::move(boardState.utilityValue);
-
+    this->gridSize = std::move(boardState.gridSize);
+    this->depth = std::move(boardState.depth);
 }
 /**
  * @brief - Move Operator 
@@ -75,6 +79,8 @@ BoardFieldGame &BoardFieldGame::operator =(BoardFieldGame &&boardState)
     this->column_played = std::move(boardState.column_played);
     this->gameBoard = std::move(boardState.gameBoard);
     this->utilityValue = std::move(boardState.utilityValue);
+    this->gridSize = std::move(boardState.gridSize);
+    this->depth = std::move(boardState.depth);
     return *this;
 
 }
@@ -98,6 +104,7 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState, unsigned int ro
     this->row_played = row;
     this->column_played = column;
     depth = boardState.depth + 1;
+    this->gridSize = boardState.gridSize;
     //
 
 }
@@ -130,13 +137,13 @@ void BoardFieldGame::drawBoard()
         for (unsigned int y = 0 ; y < gameBoard.size() ; y++){
             if (gameBoard[i][y] != BLANK){
                 std::cout <<std::internal << std::setw(2) << gameBoard[i][y] ;
-                if (y < GRIDSIZE -1 ){
+                if (y < this->gridSize -1 ){
                     std::cout << " | ";
                 }
             }
             else {
                 std::cout <<std::internal << std::setw(2)<< " ";
-                if (y < GRIDSIZE -1 ){
+                if (y < this->gridSize -1 ){
                     std::cout << " | ";
                 }
             }
@@ -176,24 +183,20 @@ std::vector<std::unique_ptr<BoardFieldGame> > BoardFieldGame::generateStates(cha
 char BoardFieldGame::isGameState() const
 {
 
-
-     // any of the rows is same
-     for (int i=0; i< GRIDSIZE; i++)
+     for (int i=0; i< this->gridSize; i++)
      {
-      if(gameBoard[i][0]==gameBoard[i][1] && gameBoard[i][1]==gameBoard[i][2] && gameBoard[i][0]!=BLANK)
-      {
-        return gameBoard[i][0];
-      }
+      if(gameBoard[i][0]==gameBoard[i][1] && gameBoard[i][1]==gameBoard[i][2] && gameBoard[i][0]!=BLANK){
+            return gameBoard[i][0];
+          }
      }
 
      // any of the columns is same
-     for(unsigned int i=0; i< GRIDSIZE; i++)
+     for(unsigned int i=0; i< this->gridSize; i++)
      {
-      if (gameBoard[0][i]==gameBoard[1][i] && gameBoard[1][i]==gameBoard[2][i] && gameBoard[0][i]!=BLANK)
-      {
-        return gameBoard[0][i];
+      if (gameBoard[0][i]==gameBoard[1][i] && gameBoard[1][i]==gameBoard[2][i] && gameBoard[0][i]!=BLANK){
+            return gameBoard[0][i];
 
-      }
+          }
      }
 
      // 1st diagonal is same
@@ -212,17 +215,14 @@ char BoardFieldGame::isGameState() const
      // if we reached here nobody has won yet
 
      // if any empty box on gameBoard then play on
-     for(unsigned int i=0; i<=2; i++)
+     for(unsigned int i=0; i< gameBoard.size(); i++)
      {
-      for(unsigned int j=0; j<=2; j++)
-      {
+        for(unsigned int j=0; j< gameBoard.size(); j++){
           //NO ONE HAS WON YET
-       if(gameBoard[i][j]==BLANK)
-       {
-
-           return ONGOING;
-       }
-      }
+            if(gameBoard[i][j]==BLANK){
+                return ONGOING;
+            }
+        }
      }
 
 
@@ -292,7 +292,37 @@ unsigned int BoardFieldGame::getDepth() const
  * @param value 
  */
 
+/**
+ * @brief BoardFieldGame::setDepth
+ * @param value= the depth of the search space max
+ */
 void BoardFieldGame::setDepth(unsigned int value)
 {
     depth = value;
 }
+
+void BoardFieldGame::reset()
+{
+    this->row_played = 0;
+    this->column_played= 0;
+    //Intialize With All Blanks
+    std::vector<std::vector<char> > internalDat(this->gridSize,std::vector<char>(this->gridSize,BLANK));
+    //Set Board Game Data Structure
+    this->gameBoard = std::move(internalDat);
+    this->utilityValue = 0;
+    this->depth = 0;//depth always start off as zero as a rule
+}
+
+unsigned int BoardFieldGame::getGridSize() const
+{
+    return gridSize;
+}
+
+void BoardFieldGame::setGridSize(unsigned int value)
+{
+    gridSize = value;
+}
+
+
+
+

@@ -4,7 +4,13 @@ TicTacController::TicTacController(QObject *parent, const int row, const int col
 {
     this->setRows(row);
     this->setColumns(column);
-    this->setPlayerSymbol('O');
+    this->setPlayerSymbol('X');
+    this->setAiSymbol('O');
+    this->gameState = std::unique_ptr<BoardFieldGame>(new BoardFieldGame(getRows()));
+    this->aImplement =
+            std::unique_ptr<AIPlayerTicTacToe>(
+                new AIPlayerTicTacToe(getAiSymbol(),getPlayerSymbol(),3));
+    this->setPlayLock(true);
 
 }
 
@@ -45,7 +51,66 @@ void TicTacController::setPlayerSymbol(char value)
     playerSymbol = value;
 }
 
+char TicTacController::getAiSymbol() const
+{
+    return aiSymbol;
+}
+
+void TicTacController::setAiSymbol(char value)
+{
+    aiSymbol = value;
+}
+
+unsigned int TicTacController::getGridSize() const
+{
+    return gridSize;
+}
+
+void TicTacController::setGridSize(unsigned int value)
+{
+    gridSize = value;
+}
+
+bool TicTacController::getPlayLock() const
+{
+    return playLock;
+}
+
+void TicTacController::setPlayLock(bool value)
+{
+    playLock = value;
+    emit  playLockChanged();
+}
+
 void TicTacController::humanPlayerAt(const unsigned int row, const unsigned int column)
 {
-    emit aIplayer(0,0);
+    try {
+        this->setPlayLock(false);
+        this->gameState->playAt(row,column,this->getPlayerSymbol());
+        if (this->gameState->isGameState() != ONGOING){
+            std::cout << "NOT ONGNNG" << std::endl;
+            return;
+        }
+
+        unsigned int rowAI ;
+        unsigned int columnAI;
+        this->aImplement->playPosition(*gameState,rowAI,columnAI);
+        std::cout<< "here"<<std::endl;
+        this->gameState->playAt(rowAI,columnAI,this->getAiSymbol());
+        if (this->gameState->isGameState() == ONGOING){
+            this->setPlayLock(true);
+        }
+        emit aIplayer(rowAI,columnAI);
+
+    } catch (...) {
+
+    }
+
+}
+
+void TicTacController::reset()
+{
+    this->setPlayLock(true);
+    this->gameState->reset();
+    emit resetSignifier();
 }

@@ -1,13 +1,11 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
 #include <iostream>
-#include <TicTacController.h>
-#include <QQmlContext>
+#include "BoardFieldGameState.h"
 #include "AIPlayerTicTacToe.h"
-//Test
+using namespace std;
+
 void match(int matchCount, bool printStages){
     //Our Current Board
-    BoardFieldGame board(3);
+    BoardFieldGame board;
      std::cout << std::endl<<"-------------------------";
     std::cout << "MATCH:" << matchCount << std::endl;
     std::cout<< "X vs O" << std::endl;
@@ -46,26 +44,11 @@ void match(int matchCount, bool printStages){
 
 
 }
-//Test
-int main(int argc, char *argv[])
+
+int main1()
 {
-    //match(1,true);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    match(2,true);
+    //To be Continued
 
-    QGuiApplication app(argc, argv);
-    //Register Controller As Type
-    qmlRegisterType<TicTacController>("CM", 1 , 0 , "TicTacController");
-    TicTacController masterController(nullptr,3,3);
-    QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("TicTacToaController", &masterController);
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
-    //Set Up Signal And Slot
 
-    return app.exec();
 }
