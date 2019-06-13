@@ -31,7 +31,7 @@ Window {
         //Signal
         signal trigger
         height: 500
-        color: "#ed5656"
+        color: "#66ee5454"
         Grid {
             id: grid
             anchors.fill: parent
@@ -143,6 +143,8 @@ Window {
 
 
 }
+
+
 
 
 
