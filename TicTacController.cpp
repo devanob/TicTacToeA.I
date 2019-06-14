@@ -9,8 +9,9 @@ TicTacController::TicTacController(QObject *parent, const unsigned int gridCount
     this->gameState = std::unique_ptr<BoardFieldGame>(new BoardFieldGame(getGridSize()));
     this->aImplement =
             std::unique_ptr<AIPlayerTicTacToe>(
-                new AIPlayerTicTacToe(getAiSymbol(),getPlayerSymbol(),10));
+                new AIPlayerTicTacToe(getAiSymbol(),getPlayerSymbol(),5));
     this->setPlayLock(true);
+    connect(this,&TicTacController::moveProcessed, this,& TicTacController::moveReceived);
 
 }
 
@@ -96,30 +97,47 @@ void TicTacController::humanPlayerAt(const unsigned int row, const unsigned int 
         this->setPlayLock(false);
         this->gameState->playAt(row,column,this->getPlayerSymbol());
         if (this->gameState->isGameState() != ONGOING){
+            //std::cout << gameState->isGameState() << std::endl;
             std::cout << "NOT ONGNNG" << std::endl;
             return;
         }
-
-        unsigned int rowAI ;
-        unsigned int columnAI;
-        this->aImplement->playPosition(*gameState,rowAI,columnAI);
-        std::cout<< "here"<<std::endl;
-
-        this->gameState->playAt(rowAI,columnAI,this->getAiSymbol());
-        if (this->gameState->isGameState() == ONGOING){
-            this->setPlayLock(true);
-        }
-        emit aIplayer(rowAI,columnAI);
-
-    } catch (...) {
+        std::thread(&TicTacController::humanPlayerAtHelper,this, row, column).detach();
+        //std::cout << "HumanPlayerAt" << std::endl;
+    }
+    catch(...){
 
     }
 
 }
 
+void TicTacController::humanPlayerAtHelper(const unsigned int row, const unsigned int column)
+{
+
+        //std::cout << "HumanPlayerAtHelper" << std::endl;
+        unsigned int rowAI ;
+        unsigned int columnAI;
+        this->aImplement->playPosition(*gameState,rowAI,columnAI);
+
+        emit moveProcessed(rowAI,columnAI);
+
+
+
+}
+
 void TicTacController::reset()
 {
-    this->setPlayLock(true);
+
     this->gameState->reset();
+    this->setPlayLock(true);
     emit resetSignifier();
+}
+
+void TicTacController::moveReceived(unsigned int row, unsigned int column)
+{
+    //std::cout << "moveReceived" << std::endl;
+    this->gameState->playAt(row,column,this->getAiSymbol());
+    if (this->gameState->isGameState() == ONGOING){
+        this->setPlayLock(true);
+    }
+    emit aIplayer(row,column);
 }

@@ -36,7 +36,7 @@ class BoardFieldGame
         void playAt(unsigned  int row, unsigned int  column, char playerCharcter);
         //End
         //Begin - drawBoard --> draws the current playing board
-        void drawBoard();
+        void drawBoard() const;
          //End 
          //Generate New States Based On Current State 
         //throw an error if the state is a terminal state

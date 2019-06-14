@@ -3,6 +3,7 @@
 #include <iostream>
 #include "AIPlayerTicTacToe.h"
 #include <QObject>
+#include <thread>
 
 class TicTacController : public QObject
 {
@@ -43,6 +44,7 @@ private:
     unsigned int gridSize;
     char playerSymbol;
     char aiSymbol;
+    void  humanPlayerAtHelper(const unsigned int row,const unsigned int column);
 
 signals:
     void gridChanged();
@@ -55,10 +57,12 @@ signals:
      * @brief reset-signify the the reset has happened on the controller side
      */
     void resetSignifier();
+    void moveProcessed(unsigned int row, unsigned int column);
 
 public slots:
     void humanPlayerAt(const unsigned int row,const unsigned int column);
     void reset();
+    void moveReceived(unsigned int row, unsigned int column);
 };
 
 #endif // TICTACCONTROLLER_H

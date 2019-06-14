@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<RCC>
+    <qresource prefix="/">
+        <file alias="../../../Downloads/circle-doodle-by-Vexels.svg">../../../../Downloads/circle-doodle-by-Vexels.svg</file>
+        <file alias="../../../Downloads/thin-circle-scribble-by-Vexels.svg">../../../../Downloads/thin-circle-scribble-by-Vexels.svg</file>
+        <file alias="../../../Downloads/x-cross-scribble-by-Vexels.svg">../../../../Downloads/x-cross-scribble-by-Vexels.svg</file>
+    </qresource>
+</RCC>

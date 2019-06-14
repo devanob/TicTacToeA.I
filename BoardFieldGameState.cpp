@@ -130,7 +130,7 @@ void  BoardFieldGame::playAt(unsigned int row, unsigned int column, char playerC
  * @brief Draw An Instance Of The Board - XO Board 
  * 
  */
-void BoardFieldGame::drawBoard()
+void BoardFieldGame::drawBoard() const
 {
     std::cout <<std::endl<<"---------------------------------" <<std::endl;
     for (unsigned int i = 0 ; i < gameBoard.size(); i++){
@@ -182,35 +182,76 @@ std::vector<std::unique_ptr<BoardFieldGame> > BoardFieldGame::generateStates(cha
  */
 char BoardFieldGame::isGameState() const
 {
-
-     for (int i=0; i< this->gridSize; i++)
+    //Check For Row Being Equal
+     //drawBoard();
+     for (unsigned int row=0; row < this->gridSize; row++)
      {
-      if(gameBoard[i][0]==gameBoard[i][1] && gameBoard[i][1]==gameBoard[i][2] && gameBoard[i][0]!=BLANK){
-            return gameBoard[i][0];
-          }
+      unsigned int rowCount = 0;
+      for (unsigned int column =0  ; column < gridSize -1 ; column++) {
+
+              if (gameBoard[row][column] ==  gameBoard[row][column+1] && gameBoard[row][column] != BLANK ){
+                  rowCount++;
+              }
+              else {
+                  break;
+              }
+
+
+      }
+      if(rowCount == (gridSize -1)){
+//          std::cout << "row" << std::endl;
+//          std::cout << rowCount << std::endl;
+          return gameBoard[row][0];
+      }
      }
 
      // any of the columns is same
-     for(unsigned int i=0; i< this->gridSize; i++)
-     {
-      if (gameBoard[0][i]==gameBoard[1][i] && gameBoard[1][i]==gameBoard[2][i] && gameBoard[0][i]!=BLANK){
-            return gameBoard[0][i];
+     //Check For Row Being Equal
+      for (unsigned int column=0; column < this->gridSize; column++)
+      {
+       unsigned int columnCount = 0;
+       for (unsigned int row =0  ; row < gridSize -1 ; row++) {
 
-          }
-     }
+               if (gameBoard[row][column] ==  gameBoard[row+1][column] && gameBoard[row][column] != BLANK){
+                   columnCount++;
+               }
+               else {
+                   break;
+               }
+
+
+       }
+       if(columnCount== (gridSize -1)){
+           return gameBoard[0][column];
+       }
+      }
 
      // 1st diagonal is same
-     if(gameBoard[0][0]==gameBoard[1][1] && gameBoard[1][1]==gameBoard[2][2] && gameBoard[0][0]!=BLANK)
-     {
-        return gameBoard[0][0];
-     }
+      unsigned int diagonalCount = 0;
 
-     // 2nd diagonal is same
-     if(gameBoard[0][2]==gameBoard[1][1] && gameBoard[1][1]==gameBoard[2][0] && gameBoard [0][2]!=BLANK)
-     {
-      return gameBoard[0][2];
-
-     }
+      for (unsigned int index = 0 ; index < gridSize -1 ; index++ ){
+          if (gameBoard[index][index]  == gameBoard[index+1][index+1] && gameBoard[index][index] != BLANK){
+              diagonalCount++;
+          }
+          else {
+              break;
+          }
+      }
+      if (diagonalCount == (gridSize - 1) ){
+          return  gameBoard[0][0];
+      }
+     unsigned int antidiagonalCount = 0;
+      for (unsigned int index = 0 ; index < gridSize -1 ; index++){
+          if (gameBoard[index][gridSize -index -1]  == gameBoard[index][gridSize -index -2] && gameBoard[index][gridSize -index -1] != BLANK){
+              antidiagonalCount ++;
+          }
+          else {
+              break;
+          }
+      }
+      if (antidiagonalCount  == (gridSize - 1) ){
+          return  gameBoard[0][gridSize -1 ];
+      }
 
      // if we reached here nobody has won yet
 
