@@ -3,13 +3,12 @@
 TicTacController::TicTacController(QObject *parent, const unsigned int gridCount) : QObject(parent)
 {
     this->gridSize = gridCount;
-    std::cout << "Constuctor" << gridCount << std::endl;
     this->setPlayerSymbol('X');
     this->setAiSymbol('O');
     this->gameState = std::unique_ptr<BoardFieldGame>(new BoardFieldGame(getGridSize()));
     this->aImplement =
             std::unique_ptr<AIPlayerTicTacToe>(
-                new AIPlayerTicTacToe(getAiSymbol(),getPlayerSymbol(),5));
+                new AIPlayerTicTacToe(getAiSymbol(),getPlayerSymbol(),6));
     this->setPlayLock(true);
     connect(this,&TicTacController::moveProcessed, this,& TicTacController::moveReceived);
 
@@ -101,6 +100,7 @@ void TicTacController::humanPlayerAt(const unsigned int row, const unsigned int 
             std::cout << "NOT ONGNNG" << std::endl;
             return;
         }
+
         std::thread(&TicTacController::humanPlayerAtHelper,this, row, column).detach();
         //std::cout << "HumanPlayerAt" << std::endl;
     }

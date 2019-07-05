@@ -24,11 +24,11 @@ class AIPlayerTicTacToe
         unsigned int maxdepth; // depth of the search space before temrinal
         BoardFieldGame MiniMAxDecision (const  BoardFieldGame& currentBoard);
         //Evaluation Function State
-        int evalutaionFunciton(const  BoardFieldGame& currentBoard);
+        int evalutaionFunciton(const  BoardFieldGame& currentBoard, char player);
         //max function
-        int maxValue(BoardFieldGame& childBoard);
+        int maxValue(BoardFieldGame& childBoard, int alpha, int beta);
         //min function
-        int minValue(BoardFieldGame& childBoard);
+        int minValue(BoardFieldGame& childBoard, int alpha, int beta);
         //min funciton
         bool terminalStateOrDepthBound(BoardFieldGame& childBoard);
         //Here Tempoaray For Testing  // seed the generator

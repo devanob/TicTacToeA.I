@@ -190,7 +190,7 @@ char BoardFieldGame::isGameState() const
       for (unsigned int column =0  ; column < gridSize -1 ; column++) {
 
               if (gameBoard[row][column] ==  gameBoard[row][column+1] && gameBoard[row][column] != BLANK ){
-                  rowCount++;
+                  ++rowCount;
               }
               else {
                   break;
@@ -213,7 +213,7 @@ char BoardFieldGame::isGameState() const
        for (unsigned int row =0  ; row < gridSize -1 ; row++) {
 
                if (gameBoard[row][column] ==  gameBoard[row+1][column] && gameBoard[row][column] != BLANK){
-                   columnCount++;
+                   ++columnCount;
                }
                else {
                    break;
@@ -231,7 +231,7 @@ char BoardFieldGame::isGameState() const
 
       for (unsigned int index = 0 ; index < gridSize -1 ; index++ ){
           if (gameBoard[index][index]  == gameBoard[index+1][index+1] && gameBoard[index][index] != BLANK){
-              diagonalCount++;
+              ++diagonalCount;
           }
           else {
               break;
@@ -242,14 +242,15 @@ char BoardFieldGame::isGameState() const
       }
      unsigned int antidiagonalCount = 0;
       for (unsigned int index = 0 ; index < gridSize -1 ; index++){
-          if (gameBoard[index][gridSize -index -1]  == gameBoard[index][gridSize -index -2] && gameBoard[index][gridSize -index -1] != BLANK){
-              antidiagonalCount ++;
+          if (gameBoard[index][gridSize -index -1]  == gameBoard[index+1][gridSize -index -2] && gameBoard[index][gridSize -index -1] != BLANK){
+              ++antidiagonalCount;
           }
           else {
               break;
           }
       }
       if (antidiagonalCount  == (gridSize - 1) ){
+//          std::cout << antidiagonalCount << std::endl;
           return  gameBoard[0][gridSize -1 ];
       }
 

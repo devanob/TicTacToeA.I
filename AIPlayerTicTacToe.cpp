@@ -85,19 +85,28 @@ void AIPlayerTicTacToe::setMaxPlayer(char value)
 BoardFieldGame AIPlayerTicTacToe::MiniMAxDecision(const BoardFieldGame &currentBoard)
 {
     auto possibleMoves = currentBoard.generateStates(maxPlayer);//generate state in which you are next player
-    if (possibleMoves.size()){// tried to pay in a draw or already won game
-        std::runtime_error(std::string("No Mode Moves TO Pay").append(std::string(1,maxPlayer)));
+    if (possibleMoves.size() ==0 ){// tried to pay in a draw or already won game
+        throw std::runtime_error(std::string("No Mode Moves TO Pay").append(std::string(1,maxPlayer)));
     }
+    int alpha = std::numeric_limits<int>::min();
+    int beta = std::numeric_limits<int>::max();
+    BoardFieldGame* bestMove = &(*possibleMoves[0]);
     for (auto & stateNode : possibleMoves){
-        stateNode->setUtilityValue(minValue(*stateNode));
-    }
+        stateNode->setUtilityValue(minValue(*stateNode,alpha,beta));
+        std::cout << "alpha:" <<alpha<< std::endl;
+        std::cout << "beta:" <<beta<< std::endl;
+        if (stateNode->getUtilityValue() > alpha){
+            alpha = stateNode->getUtilityValue();
+            bestMove = &*stateNode;
+        }
+        }
     //Now Time To Get The biggest values of
-    auto max = std::max_element(possibleMoves.begin(),  possibleMoves.end(),
-                                 []( const std::unique_ptr<BoardFieldGame> &left, const std::unique_ptr<BoardFieldGame> &right )
-                                 {
-                                     return left->getUtilityValue() < right->getUtilityValue();
-                                 });
-    return std::move(*(*max));//return the best move theorically
+//    auto max = std::max_element(possibleMoves.begin(),  possibleMoves.end(),
+//                                 []( const std::unique_ptr<BoardFieldGame> &left, const std::unique_ptr<BoardFieldGame> &right )
+//                                 {
+//                                     return left->getUtilityValue() < right->getUtilityValue();
+//                                 });
+    return std::move(*bestMove);//return the best move theorically
 
 }
 /**
@@ -107,19 +116,25 @@ BoardFieldGame AIPlayerTicTacToe::MiniMAxDecision(const BoardFieldGame &currentB
  * @return int return a evaluation value between -int max to + int max 
  * where -INF = MIN WIN +INF = MAX WIN AND Any Finite Number Is Eval Score
  */
-int AIPlayerTicTacToe::evalutaionFunciton(const BoardFieldGame &currentBoard)
+int AIPlayerTicTacToe::evalutaionFunciton(const BoardFieldGame &currentBoard, char player)
 {
     if (currentBoard.isGameState() == maxPlayer){ // if you have won =INF
+//        currentBoard.drawBoard();
         return std::numeric_limits<int>::max(); //force win
+
     }
     else if (currentBoard.isGameState() == minOpponet){ // if your opponet has won =INF
-        return  std::numeric_limits<int>::min(); //force loss or you
+        return std::numeric_limits<int>::min(); //force loss or you
     }
     else if (currentBoard.isGameState() == DRAW){ // if draw
         return 0;
     }
     else {//game is still on going
-        return heuristic(currentBoard, maxPlayer) -  heuristic(currentBoard, minOpponet);
+        if (player == maxPlayer)
+            return heuristic(currentBoard, maxPlayer);
+        else{
+            return -heuristic(currentBoard,minOpponet);
+        }
     }
 }
 /**
@@ -128,18 +143,27 @@ int AIPlayerTicTacToe::evalutaionFunciton(const BoardFieldGame &currentBoard)
  * @param childBoard -  a current intance of a board
  * @return int - return the evaluation score
  */
-int AIPlayerTicTacToe::maxValue(BoardFieldGame &childBoard)
+int AIPlayerTicTacToe::maxValue(BoardFieldGame &childBoard,int alpha, int beta)
 {
     if (terminalStateOrDepthBound(childBoard)){
-        return evalutaionFunciton(childBoard);
+
+
+        return evalutaionFunciton(childBoard, maxPlayer);
     }
     int nodeValue = std::numeric_limits<int>::min(); // set to -inf or min(int)
     //std::cout << nodeValue;
     auto possibleMoves = std::move(childBoard.generateStates(maxPlayer));//generate state in which you are next player
     for (auto & stateNode : possibleMoves){
-        nodeValue = std::max(nodeValue, minValue(*stateNode));
+        nodeValue = std::max(nodeValue, minValue(*stateNode,alpha,beta));
+        if (nodeValue >= beta){
+
+            return nodeValue;
+        }
+        alpha = std::max(alpha,nodeValue);
+
     }
     return nodeValue;
+
 }
 
 /**
@@ -148,16 +172,22 @@ int AIPlayerTicTacToe::maxValue(BoardFieldGame &childBoard)
  * @param childBoard -  a current intance of a board
  * @return int - return the evaluation score
  */
-int AIPlayerTicTacToe::minValue(BoardFieldGame &childBoard)
+int AIPlayerTicTacToe::minValue(BoardFieldGame &childBoard, int alpha, int beta)
 {
     if (terminalStateOrDepthBound(childBoard)){ // check if player  game has ended due to a player win or depth bound 
-        return evalutaionFunciton(childBoard);
+        return evalutaionFunciton(childBoard,minOpponet);
     }
     int nodeValue = std::numeric_limits<int>::max(); // set to -inf or min(int)
 
     auto possibleMoves = std::move(childBoard.generateStates(minOpponet));//generate state in which you are next player
     for (auto & stateNode : possibleMoves){
-        nodeValue = std::min(nodeValue, maxValue(*stateNode));
+        nodeValue = std::min(nodeValue, maxValue(*stateNode,alpha,beta));
+
+        if (nodeValue <= alpha){
+              return nodeValue;
+        }
+        beta = std::min(beta,nodeValue);
+
     }
     return nodeValue;
 }
@@ -176,7 +206,7 @@ bool AIPlayerTicTacToe::terminalStateOrDepthBound(BoardFieldGame &childBoard)
         //childBoard.drawBoard();
         return true; // game has ended with a win for someone or a draw
     }
-    else if (childBoard.getDepth() == maxdepth){
+    else if (childBoard.getDepth() >= maxdepth){
         //std::cout << childBoard.getDepth();
         return true; // we have reach our max dept
     }
@@ -195,8 +225,12 @@ bool AIPlayerTicTacToe::terminalStateOrDepthBound(BoardFieldGame &childBoard)
 int AIPlayerTicTacToe::heuristic(const BoardFieldGame &gameBoard, char &player)
 {
     //check everything return the count
-    return checkRow(gameBoard,player) + checkColumns(gameBoard,player) +
-            + checkDiagonal(gameBoard, player) + checkAntiDiagonal(gameBoard,player);
+    auto countRoW=  checkRow(gameBoard,player) ;
+    auto countcolumn =checkColumns(gameBoard,player) ;
+    auto countDiag =checkDiagonal(gameBoard, player);
+    auto countAnti =checkAntiDiagonal(gameBoard,player);
+
+    return countRoW + countcolumn + countDiag + countAnti;
 }
 /**
  * @brief 
@@ -233,6 +267,7 @@ int AIPlayerTicTacToe::checkRow(const BoardFieldGame &gameBoard, char &player)
 
     }// END ROW
     return countWinningSpot;
+
 }
 /**
  * @brief 
