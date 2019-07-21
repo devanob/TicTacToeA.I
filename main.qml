@@ -11,7 +11,7 @@ Window {
     height: 800
     color: "#7ae6f3"
     opacity: 1
-    title: qsTr("Hello World")
+    title: qsTr("A.I Tic Tac Toe")
     Rectangle {
         id: rectangle1
         radius: 3

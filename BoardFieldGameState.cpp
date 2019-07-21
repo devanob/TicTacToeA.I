@@ -364,6 +364,39 @@ void BoardFieldGame::setGridSize(unsigned int value)
 {
     gridSize = value;
 }
+/**
+ * @brief BoardFieldGame::nextChildState - Generate A New Child State Based On Te Current Parent
+ * @param playerCharacter
+ * @param childSateFound
+ * @return
+ */
+std::shared_ptr<BoardFieldGame> BoardFieldGame::nextChildState(char playerCharacter,  bool& childSateFound)
+{
+
+    //check if memory is already allocated
+    if (this->childrenBoard){
+        this->childrenBoard =std::make_shared<BoardFieldGame>(this->gridSize);
+    }
+
+    for (unsigned int  row =  this->cached_last_row_played ; row < gameBoard.size() ; row++){ //Lopps Through each Row
+        for (unsigned int column = this->cached_last_colum_played ; column < gameBoard.size() ; column++){ //Loop through each colum
+            if (gameBoard[row][column] == BLANK){ // if we have a free spot generate a possible outcome
+                auto childBoardPtr = childrenBoard.get();
+                std::destroy_at(childBoardPtr);
+                std::uninitialized_fill_n(childBoardPtr,1, BoardFieldGame(*this,row,column, playerCharacter));
+                this->cached_last_row_played = row;
+                this->cached_last_colum_played=column;
+                childSateFound = true;
+                return childrenBoard;
+
+
+
+            }
+        }
+    }
+    childSateFound = false;
+    return childrenBoard;
+}
 
 
 

@@ -17,6 +17,7 @@ class AIPlayerTicTacToe
         void setMaxPlayer(char value);
 
 
+
     private:
         //he
         char maxPlayer; // the charcter of this player
@@ -40,6 +41,7 @@ class AIPlayerTicTacToe
         int checkColumns(const BoardFieldGame& gameBoard, char & player);
         int checkDiagonal(const BoardFieldGame& gameBoard, char & player);
         int checkAntiDiagonal(const BoardFieldGame& gameBoard, char & player);
+        std::mt19937 seenGen;
 };
 
 #endif // AIPLAYERTICTACTOE_H

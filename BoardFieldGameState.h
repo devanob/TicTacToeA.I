@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
+#include <exception>
 
 #include <limits>
 //Limits
@@ -45,7 +46,6 @@ class BoardFieldGame
          //if draw return draw
          char isGameState() const;
         //End
-        
         //Set Utiltity For Node and Get Utility
          int getUtilityValue() const;
          void setUtilityValue(int value);
@@ -65,7 +65,9 @@ class BoardFieldGame
 
 
          unsigned int getGridSize() const;
+         //
          void setGridSize(unsigned int value);
+         std::shared_ptr<BoardFieldGame> nextChildState(char playerCharacter, bool& childSateFound);
 
 private:
          int utilityValue;
@@ -77,6 +79,9 @@ private:
         //Data Structure Board
          std::vector<std::vector<char>> gameBoard;
          unsigned int gridSize;
+         std::shared_ptr<BoardFieldGame> childrenBoard;
+         unsigned cached_last_row_played = 0;
+         unsigned cached_last_colum_played = 0;
 
 
         

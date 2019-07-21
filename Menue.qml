@@ -123,7 +123,9 @@ Rectangle {
 
 
 
+
+
 /*##^## Designer {
-    D{i:0;width:640}D{i:5;anchors_x:250}D{i:4;anchors_x:250}
+    D{i:0;width:640}D{i:1;anchors_height:400;anchors_width:200}
 }
  ##^##*/

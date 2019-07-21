@@ -4,6 +4,7 @@
 #include <TicTacController.h>
 #include <QQmlContext>
 #include "AIPlayerTicTacToe.h"
+#include <memory>
 //Test
 void match(int matchCount, bool printStages){
     //Our Current Board
@@ -49,6 +50,8 @@ void match(int matchCount, bool printStages){
 //Test
 int main(int argc, char *argv[])
 {
+    std::cout << sizeof (BoardFieldGame) << std::endl;
+    std::cout << alignof(BoardFieldGame) << std::endl;
     //match(1,true);
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 

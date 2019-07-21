@@ -12,6 +12,8 @@ AIPlayerTicTacToe::AIPlayerTicTacToe(const char &playeSymbol, const char &oppone
     this->maxPlayer = playeSymbol;
     this->minOpponet = opponetSymbol;
     this->maxdepth = maxDept;
+    std::random_device rd;
+    this->seenGen = std::mt19937(rd());
 }
 /**
  * @brief - pass a reference to the current board then the current player makes a move on that board 
@@ -93,13 +95,35 @@ BoardFieldGame AIPlayerTicTacToe::MiniMAxDecision(const BoardFieldGame &currentB
     BoardFieldGame* bestMove = &(*possibleMoves[0]);
     for (auto & stateNode : possibleMoves){
         stateNode->setUtilityValue(minValue(*stateNode,alpha,beta));
-        std::cout << "alpha:" <<alpha<< std::endl;
-        std::cout << "beta:" <<beta<< std::endl;
         if (stateNode->getUtilityValue() > alpha){
             alpha = stateNode->getUtilityValue();
             bestMove = &*stateNode;
         }
         }
+//    for (auto & stateNode : possibleMoves){
+//        std::cout << " " << stateNode->getUtilityValue();
+//    }
+//    std::cout << std::endl;
+//    std::vector<unsigned int> options;
+//   for (int i = 0 ; i < possibleMoves.size() ; i++){
+//       if (possibleMoves[i]->getUtilityValue() == alpha){
+//           options.push_back(i);
+//           std::cout << " " << i;
+
+//       }
+//   }
+//    std::cout << std::endl;
+//   std::shuffle(options.begin(), options.end(),this->seenGen);
+//   std::shuffle(options.begin(), options.end(),this->seenGen);
+//   for(auto i : options){
+//       std::cout << " " << i;
+//   }
+   std::cout << std::endl;
+   std::cout << "------" << std::endl;
+
+
+
+
     //Now Time To Get The biggest values of
 //    auto max = std::max_element(possibleMoves.begin(),  possibleMoves.end(),
 //                                 []( const std::unique_ptr<BoardFieldGame> &left, const std::unique_ptr<BoardFieldGame> &right )

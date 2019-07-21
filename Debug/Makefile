@@ -16,7 +16,7 @@ CC            = /Library/Developer/CommandLineTools/usr/bin/clang
 CXX           = /Library/Developer/CommandLineTools/usr/bin/clang++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -stdlib=libc++ -O2 -std=gnu++1y $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -stdlib=libc++ -O2 -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -fPIC $(DEFINES)
 INCPATH       = -I../../TicTacToe -I. -I../../../../Qt5.12.3/5.12.3/clang_64/lib/QtQuick.framework/Headers -I../../../../Qt5.12.3/5.12.3/clang_64/lib/QtGui.framework/Headers -I../../../../Qt5.12.3/5.12.3/clang_64/lib/QtQml.framework/Headers -I../../../../Qt5.12.3/5.12.3/clang_64/lib/QtNetwork.framework/Headers -I../../../../Qt5.12.3/5.12.3/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode10.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode10.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AGL.framework/Headers/ -I../../../../Qt5.12.3/5.12.3/clang_64/mkspecs/macx-clang -F/Users/Lola/Qt5.12.3/5.12.3/clang_64/lib
 QMAKE         = /Users/Lola/Qt5.12.3/5.12.3/clang_64/bin/qmake
 DEL_FILE      = rm -f
@@ -723,7 +723,7 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: ../../../../Qt5.12.3/5.12.3/clang_64/mkspecs/features/data/dummy.cpp
-	/Library/Developer/CommandLineTools/usr/bin/clang++ -pipe -stdlib=libc++ -O2 -std=gnu++1y $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -dM -E -o moc_predefs.h ../../../../Qt5.12.3/5.12.3/clang_64/mkspecs/features/data/dummy.cpp
+	/Library/Developer/CommandLineTools/usr/bin/clang++ -pipe -stdlib=libc++ -O2 -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -dM -E -o moc_predefs.h ../../../../Qt5.12.3/5.12.3/clang_64/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: moc_TicTacController.cpp
 compiler_moc_header_clean:
