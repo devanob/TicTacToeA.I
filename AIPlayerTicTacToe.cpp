@@ -175,17 +175,15 @@ int AIPlayerTicTacToe::maxValue(BoardFieldGame &childBoard,int alpha, int beta)
         return evalutaionFunciton(childBoard, maxPlayer);
     }
     int nodeValue = std::numeric_limits<int>::min(); // set to -inf or min(int)
-    //std::cout << nodeValue;
-    auto possibleMoves = std::move(childBoard.generateStates(maxPlayer));//generate state in which you are next player
-    for (auto & stateNode : possibleMoves){
-        nodeValue = std::max(nodeValue, minValue(*stateNode,alpha,beta));
-        if (nodeValue >= beta){
-
-            return nodeValue;
-        }
-        alpha = std::max(alpha,nodeValue);
-
+    std::shared_ptr<BoardFieldGame> currentChildState;
+    while (childBoard.nextChildState(maxPlayer,currentChildState)){
+         nodeValue = std::max(nodeValue, minValue(*currentChildState,alpha,beta));
+         if (nodeValue >= beta){
+               return nodeValue;
+         }
+         alpha = std::max(alpha,nodeValue);
     }
+
     return nodeValue;
 
 }
@@ -202,17 +200,16 @@ int AIPlayerTicTacToe::minValue(BoardFieldGame &childBoard, int alpha, int beta)
         return evalutaionFunciton(childBoard,minOpponet);
     }
     int nodeValue = std::numeric_limits<int>::max(); // set to -inf or min(int)
-
-    auto possibleMoves = std::move(childBoard.generateStates(minOpponet));//generate state in which you are next player
-    for (auto & stateNode : possibleMoves){
-        nodeValue = std::min(nodeValue, maxValue(*stateNode,alpha,beta));
-
-        if (nodeValue <= alpha){
-              return nodeValue;
-        }
-        beta = std::min(beta,nodeValue);
-
+    std::shared_ptr<BoardFieldGame> currentChildState;
+    while (childBoard.nextChildState(minOpponet,currentChildState)){
+         //currentChildState->drawBoard();
+         nodeValue = std::min(nodeValue, maxValue(*currentChildState,alpha,beta));
+         if (nodeValue <= alpha){
+               return nodeValue;
+         }
+         beta = std::min(beta,nodeValue);
     }
+
     return nodeValue;
 }
 /**

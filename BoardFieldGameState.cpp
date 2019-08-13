@@ -6,8 +6,7 @@
  */
 BoardFieldGame::BoardFieldGame(unsigned int gridSize)
 {
-    this->row_played = 0;
-    this->column_played= 0;
+
     this->setGridSize(gridSize);
     //Intialize With All Blanks
     std::vector<std::vector<char> > internalDat(this->gridSize,std::vector<char>(this->gridSize,BLANK));
@@ -31,7 +30,13 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState)
     this->utilityValue = boardState.utilityValue;
     this->depth = boardState.depth;
     this->setGridSize(boardState.getGridSize());
-
+    this->cached_last_row_played = boardState.cached_last_row_played;
+    this->cached_last_colum_played = boardState.cached_last_colum_played;
+    //std::cout << "Copy Contructor Started" << std::endl;
+    //std::cout << "Copy" << std::endl;
+    //std::cout << "Copy Stuff Row: " << boardState.row_played << std::endl;
+    //std::cout << "Copy Stuff Column: " << boardState.column_played << std::endl;
+//    this->drawBoard();
 
 }
 /**
@@ -49,7 +54,10 @@ BoardFieldGame & BoardFieldGame::operator =(const BoardFieldGame &boardState)
     this->gameBoard = boardState.gameBoard;
     this->utilityValue = boardState.utilityValue;
     this->setGridSize(boardState.gridSize);
+    this->cached_last_row_played = boardState.cached_last_row_played;
+    this->cached_last_colum_played = boardState.cached_last_colum_played;
     return *this;
+
 }
 /**
  * @brief Construct a new Board Field Game:: Board Field Game object Move Contructor
@@ -65,6 +73,10 @@ BoardFieldGame::BoardFieldGame(BoardFieldGame &&boardState)
     this->utilityValue = std::move(boardState.utilityValue);
     this->gridSize = std::move(boardState.gridSize);
     this->depth = std::move(boardState.depth);
+    this->cached_last_row_played = std::move(boardState.cached_last_row_played);
+    this->cached_last_colum_played = std::move(boardState.cached_last_colum_played);
+    std::cout << "COPY" << std::endl;
+
 }
 /**
  * @brief - Move Operator 
@@ -81,6 +93,8 @@ BoardFieldGame &BoardFieldGame::operator =(BoardFieldGame &&boardState)
     this->utilityValue = std::move(boardState.utilityValue);
     this->gridSize = std::move(boardState.gridSize);
     this->depth = std::move(boardState.depth);
+    this->cached_last_row_played = std::move(boardState.cached_last_row_played);
+    this->cached_last_colum_played = std::move(boardState.cached_last_colum_played);
     return *this;
 
 }
@@ -94,9 +108,6 @@ BoardFieldGame &BoardFieldGame::operator =(BoardFieldGame &&boardState)
  */
 BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState, unsigned int row, unsigned int column, char playerCharcter)
 {
-    //Copy Contructor//
-    this->row_played = boardState.row_played;
-    this->column_played = boardState.column_played;
     this->gameBoard = boardState.gameBoard;
     this->utilityValue = boardState.utilityValue;
     //Player playerCharacter At Row, Column 
@@ -105,6 +116,8 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState, unsigned int ro
     this->column_played = column;
     depth = boardState.depth + 1;
     this->gridSize = boardState.gridSize;
+    this->cached_last_row_played = 0;
+    this->cached_last_colum_played= 0;
     //
 
 }
@@ -370,32 +383,42 @@ void BoardFieldGame::setGridSize(unsigned int value)
  * @param childSateFound
  * @return
  */
-std::shared_ptr<BoardFieldGame> BoardFieldGame::nextChildState(char playerCharacter,  bool& childSateFound)
+bool  BoardFieldGame::nextChildState(char playerCharacter,  std::shared_ptr<BoardFieldGame> &childState)
 {
 
     //check if memory is already allocated
-    if (this->childrenBoard){
-        this->childrenBoard =std::make_shared<BoardFieldGame>(this->gridSize);
+    //std::cout << "-------"<< std::endl;
+   // std::cout << std::dec<<this << std::endl;
+    if (!childrenBoard){
+
+        this->childrenBoard = std::make_shared<BoardFieldGame>(this->gridSize);
+
     }
 
-    for (unsigned int  row =  this->cached_last_row_played ; row < gameBoard.size() ; row++){ //Lopps Through each Row
-        for (unsigned int column = this->cached_last_colum_played ; column < gameBoard.size() ; column++){ //Loop through each colum
-            if (gameBoard[row][column] == BLANK){ // if we have a free spot generate a possible outcome
+    for ( unsigned int  row =  this->cached_last_row_played ; row < gameBoard.size() ; row++){ //Lopps Through each Row
+        for ( unsigned int column = this->cached_last_colum_played ; column < gameBoard.size() ; column++){ //Loop through each colum
+            if (
+                (gameBoard[row][column] == BLANK) &&
+                (childrenBoard->getRow_played() != row || childrenBoard->getColumn_played() != column)  )
+                 {
+                //this->drawBoard();
                 auto childBoardPtr = childrenBoard.get();
                 std::destroy_at(childBoardPtr);
                 std::uninitialized_fill_n(childBoardPtr,1, BoardFieldGame(*this,row,column, playerCharacter));
                 this->cached_last_row_played = row;
                 this->cached_last_colum_played=column;
-                childSateFound = true;
-                return childrenBoard;
+                childState = this->childrenBoard;
+                //std::cout << childState.use_count() << std::endl;
+                //std::cout << "-------"<< std::endl;
+                return true;
 
 
 
             }
         }
+        this->cached_last_colum_played  =0;
     }
-    childSateFound = false;
-    return childrenBoard;
+    return false;
 }
 
 

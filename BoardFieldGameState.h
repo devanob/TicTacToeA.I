@@ -67,21 +67,22 @@ class BoardFieldGame
          unsigned int getGridSize() const;
          //
          void setGridSize(unsigned int value);
-         std::shared_ptr<BoardFieldGame> nextChildState(char playerCharacter, bool& childSateFound);
+         bool nextChildState(char playerCharacter, std::shared_ptr<BoardFieldGame>& childState);
 
 private:
          int utilityValue;
          unsigned int depth;
          // Begin -The Position The Player Made That Lead To This Positon
-        unsigned int row_played;
-        unsigned int column_played;
+        unsigned int row_played=56565;
+        unsigned int column_played=56565;
         //End 
         //Data Structure Board
          std::vector<std::vector<char>> gameBoard;
          unsigned int gridSize;
-         std::shared_ptr<BoardFieldGame> childrenBoard;
-         unsigned cached_last_row_played = 0;
-         unsigned cached_last_colum_played = 0;
+         std::shared_ptr<BoardFieldGame> childrenBoard = nullptr;
+         unsigned int cached_last_row_played = 0;
+        unsigned  int cached_last_colum_played = 0;
+        BoardFieldGame* Id = this;
 
 
         
