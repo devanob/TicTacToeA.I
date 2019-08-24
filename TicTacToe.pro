@@ -44,5 +44,8 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES +=
+DISTFILES += \
+    IMAGE/circle-doodle-by-Vexels.svg \
+    IMAGE/thin-circle-scribble-by-Vexels.svg \
+    IMAGE/x-cross-scribble-by-Vexels.svg
 

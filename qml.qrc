@@ -3,8 +3,7 @@
         <file>main.qml</file>
         <file>Menue.qml</file>
         <file>CELL.qml</file>
-        <file>../../../Downloads/circle-doodle-by-Vexels.svg</file>
-        <file>../../../Downloads/thin-circle-scribble-by-Vexels.svg</file>
-        <file>../../../Downloads/x-cross-scribble-by-Vexels.svg</file>
+        <file>IMAGE/circle-doodle-by-Vexels.svg</file>
+        <file>IMAGE/x-cross-scribble-by-Vexels.svg</file>
     </qresource>
 </RCC>

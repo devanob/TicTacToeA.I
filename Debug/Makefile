@@ -71,7 +71,10 @@ OBJECTS       = BoardFieldGameState.o \
 		main_qml.o \
 		qmlcache_loader.o \
 		moc_TicTacController.o
-DIST          = /Users/Qt5.12.3/5.12.3/clang_64/mkspecs/features/spec_pre.prf \
+DIST          = ../IMAGE/circle-doodle-by-Vexels.svg \
+		../IMAGE/thin-circle-scribble-by-Vexels.svg \
+		../IMAGE/x-cross-scribble-by-Vexels.svg \
+		/Users/Qt5.12.3/5.12.3/clang_64/mkspecs/features/spec_pre.prf \
 		/Users/Qt5.12.3/5.12.3/clang_64/mkspecs/qdevice.pri \
 		/Users/Qt5.12.3/5.12.3/clang_64/mkspecs/features/device_config.prf \
 		/Users/Qt5.12.3/5.12.3/clang_64/mkspecs/common/unix.conf \
@@ -693,9 +696,8 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_qml_qmlcache.cpp
 qrc_qml_qmlcache.cpp: qml_qmlcache.qrc \
 		../../../../Qt5.12.3/5.12.3/clang_64/bin/rcc \
-		../../../../Downloads/x-cross-scribble-by-Vexels.svg \
-		../../../../Downloads/circle-doodle-by-Vexels.svg \
-		../../../../Downloads/thin-circle-scribble-by-Vexels.svg
+		../IMAGE/x-cross-scribble-by-Vexels.svg \
+		../IMAGE/circle-doodle-by-Vexels.svg
 	/Users/Lola/Qt5.12.3/5.12.3/clang_64/bin/rcc -name qml_qmlcache qml_qmlcache.qrc -o qrc_qml_qmlcache.cpp
 
 compiler_qmlcache_make_all: Menue_qml.cpp CELL_qml.cpp main_qml.cpp

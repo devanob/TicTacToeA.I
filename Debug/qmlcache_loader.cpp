@@ -73,11 +73,9 @@ const QQmlPrivate::CachedQmlUnit *Registry::lookupCachedUnit(const QUrl &url) {
 }
 int QT_MANGLE_NAMESPACE(qInitResources_qml)() {
     ::unitRegistry();
-    Q_INIT_RESOURCE(qml_qmlcache);
     return 1;
 }
 Q_CONSTRUCTOR_FUNCTION(QT_MANGLE_NAMESPACE(qInitResources_qml))
 int QT_MANGLE_NAMESPACE(qCleanupResources_qml)() {
-    Q_CLEANUP_RESOURCE(qml_qmlcache);
     return 1;
 }

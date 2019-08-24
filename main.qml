@@ -71,11 +71,11 @@ Window {
                                 //console.log(repeater1.itemAt(index))
                                 if (TicTacToaController.playerSymbol ==='O'.charCodeAt(0)){
 
-                                    image.source = "../../../../Downloads/circle-doodle-by-Vexels.svg";
+                                    image.source = "IMAGE/circle-doodle-by-Vexels.svg";
                                     //rect1.color = "blue";
                                 }
                                 else {
-                                    image.source = "../../../../Downloads/x-cross-scribble-by-Vexels.svg";
+                                    image.source = "IMAGE/x-cross-scribble-by-Vexels.svg";
                                     //rect1.color= "red";
                                 }
                                 rect1.isPlayed=  true;
@@ -91,11 +91,11 @@ Window {
                                 if (rect1.cellRow == row && rect1.cellColumn == column && !rect1.isPlayed ){
                                     if (TicTacToaController.playerSymbol !=='O'.charCodeAt(0)){
 
-                                        image.source = "../../../../Downloads/circle-doodle-by-Vexels.svg";
+                                        image.source = "IMAGE/circle-doodle-by-Vexels.svg";
                                         //rect1.color = "blue";
                                     }
                                     else {
-                                        image.source = "../../../../Downloads/x-cross-scribble-by-Vexels.svg";
+                                        image.source = "IMAGE/x-cross-scribble-by-Vexels.svg";
                                         //rect1.color= "red";
                                     }
                                     rect1.isPlayed=  true;
