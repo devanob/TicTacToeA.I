@@ -32,11 +32,6 @@ BoardFieldGame::BoardFieldGame(const BoardFieldGame &boardState)
     this->setGridSize(boardState.getGridSize());
     this->cached_last_row_played = boardState.cached_last_row_played;
     this->cached_last_colum_played = boardState.cached_last_colum_played;
-    //std::cout << "Copy Contructor Started" << std::endl;
-    //std::cout << "Copy" << std::endl;
-    //std::cout << "Copy Stuff Row: " << boardState.row_played << std::endl;
-    //std::cout << "Copy Stuff Column: " << boardState.column_played << std::endl;
-//    this->drawBoard();
 
 }
 /**
@@ -75,7 +70,6 @@ BoardFieldGame::BoardFieldGame(BoardFieldGame &&boardState)
     this->depth = std::move(boardState.depth);
     this->cached_last_row_played = std::move(boardState.cached_last_row_played);
     this->cached_last_colum_played = std::move(boardState.cached_last_colum_played);
-    std::cout << "COPY" << std::endl;
 
 }
 /**
@@ -212,8 +206,7 @@ char BoardFieldGame::isGameState() const
 
       }
       if(rowCount == (gridSize -1)){
-//          std::cout << "row" << std::endl;
-//          std::cout << rowCount << std::endl;
+
           return gameBoard[row][0];
       }
      }
@@ -387,8 +380,6 @@ bool  BoardFieldGame::nextChildState(char playerCharacter,  std::shared_ptr<Boar
 {
 
     //check if memory is already allocated
-    //std::cout << "-------"<< std::endl;
-   // std::cout << std::dec<<this << std::endl;
     if (!childrenBoard){
 
         this->childrenBoard = std::make_shared<BoardFieldGame>(this->gridSize);
@@ -401,15 +392,12 @@ bool  BoardFieldGame::nextChildState(char playerCharacter,  std::shared_ptr<Boar
                 (gameBoard[row][column] == BLANK) &&
                 (childrenBoard->getRow_played() != row || childrenBoard->getColumn_played() != column)  )
                  {
-                //this->drawBoard();
                 auto childBoardPtr = childrenBoard.get();
                 std::destroy_at(childBoardPtr);
                 std::uninitialized_fill_n(childBoardPtr,1, BoardFieldGame(*this,row,column, playerCharacter));
                 this->cached_last_row_played = row;
                 this->cached_last_colum_played=column;
                 childState = this->childrenBoard;
-                //std::cout << childState.use_count() << std::endl;
-                //std::cout << "-------"<< std::endl;
                 return true;
 
 

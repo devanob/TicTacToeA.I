@@ -100,25 +100,6 @@ BoardFieldGame AIPlayerTicTacToe::MiniMAxDecision(const BoardFieldGame &currentB
             bestMove = &*stateNode;
         }
         }
-//    for (auto & stateNode : possibleMoves){
-//        std::cout << " " << stateNode->getUtilityValue();
-//    }
-//    std::cout << std::endl;
-//    std::vector<unsigned int> options;
-//   for (int i = 0 ; i < possibleMoves.size() ; i++){
-//       if (possibleMoves[i]->getUtilityValue() == alpha){
-//           options.push_back(i);
-//           std::cout << " " << i;
-
-//       }
-//   }
-//    std::cout << std::endl;
-//   std::shuffle(options.begin(), options.end(),this->seenGen);
-//   std::shuffle(options.begin(), options.end(),this->seenGen);
-//   for(auto i : options){
-//       std::cout << " " << i;
-//   }
-   std::cout << std::endl;
    std::cout << "------" << std::endl;
 
 
@@ -202,7 +183,6 @@ int AIPlayerTicTacToe::minValue(BoardFieldGame &childBoard, int alpha, int beta)
     int nodeValue = std::numeric_limits<int>::max(); // set to -inf or min(int)
     std::shared_ptr<BoardFieldGame> currentChildState;
     while (childBoard.nextChildState(minOpponet,currentChildState)){
-         //currentChildState->drawBoard();
          nodeValue = std::min(nodeValue, maxValue(*currentChildState,alpha,beta));
          if (nodeValue <= alpha){
                return nodeValue;
@@ -224,11 +204,9 @@ bool AIPlayerTicTacToe::terminalStateOrDepthBound(BoardFieldGame &childBoard)
     auto WinLossState = childBoard.isGameState();
     if (WinLossState== maxPlayer || WinLossState == minOpponet || WinLossState == DRAW){
 
-        //childBoard.drawBoard();
         return true; // game has ended with a win for someone or a draw
     }
     else if (childBoard.getDepth() >= maxdepth){
-        //std::cout << childBoard.getDepth();
         return true; // we have reach our max dept
     }
     else {

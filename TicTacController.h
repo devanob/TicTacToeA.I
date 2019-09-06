@@ -5,8 +5,12 @@
 #include <QObject>
 #include <thread>
 
+/**
+ * @brief The TicTacController class - Acts As The Controller Between The Front And BackEnd Logic "VC"
+ */
 class TicTacController : public QObject
 {
+    //Import Qt logic
     Q_OBJECT
     Q_PROPERTY(unsigned int  rowCount READ getRows WRITE setRows NOTIFY rowChanged)
     Q_PROPERTY(unsigned int gridCount READ getGridSize WRITE setGridSize NOTIFY gridChanged)
@@ -32,8 +36,9 @@ public:
     std::unique_ptr<AIPlayerTicTacToe> aImplement;
     unsigned int getGridSize() const;
     void setGridSize(unsigned int value);
-
+    //gets player lock
     bool getPlayLock() const;
+    //setter for the player lock
     void setPlayLock(bool value);
 
 private:
@@ -42,16 +47,16 @@ private:
     unsigned int rows;
     unsigned int columns;
     unsigned int gridSize;
-    char playerSymbol;
-    char aiSymbol;
+    char playerSymbol; //symbol for the  humna
+    char aiSymbol; //symbol for the a.i
     void  humanPlayerAtHelper(const unsigned int row,const unsigned int column);
 
 signals:
-    void gridChanged();
-    void playLockChanged();
-    void rowChanged();
-    void columnChanged();
-    void playerChanged();
+    void gridChanged(); //chnage grid size nXnmaxes out at 7*7
+    void playLockChanged(); // flag to detect player lock change such as the end of a.i computation
+    void rowChanged(); //return flag to detect rowChnaged
+    void columnChanged(); //return flag to detect rowChnaged
+    void playerChanged(); //return flag to detect player change
     void aIplayer(unsigned int row, unsigned int column);
     /**
      * @brief reset-signify the the reset has happened on the controller side

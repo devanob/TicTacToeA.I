@@ -51,14 +51,14 @@ class BoardFieldGame
          void setUtilityValue(int value);
          //get  the play at row, column user can not modify internel state//
          const char &at(unsigned int& row, unsigned int& column) const;
-
+         //get the row played for this instance
          unsigned int getRow_played() const;
-
+         //get the column played for this instance
          unsigned int getColumn_played() const;
-
+        //get the depth of the search tree
          unsigned int getDepth() const;
          void setDepth(unsigned int value);
-
+        //resets the board = non-terminal
          void reset();
 
          //Getter And Setter Funciton
@@ -70,6 +70,7 @@ class BoardFieldGame
          bool nextChildState(char playerCharacter, std::shared_ptr<BoardFieldGame>& childState);
 
 private:
+         //the utility value of this board
          int utilityValue;
          unsigned int depth;
          // Begin -The Position The Player Made That Lead To This Positon

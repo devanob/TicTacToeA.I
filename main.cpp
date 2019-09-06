@@ -50,9 +50,7 @@ void match(int matchCount, bool printStages){
 //Test
 int main(int argc, char *argv[])
 {
-    std::cout << sizeof (BoardFieldGame) << std::endl;
-    std::cout << alignof(BoardFieldGame) << std::endl;
-    //match(1,true);
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);

@@ -19,7 +19,6 @@ class AIPlayerTicTacToe
 
 
     private:
-        //he
         char maxPlayer; // the charcter of this player
         char minOpponet; // the character of your opponet
         unsigned int maxdepth; // depth of the search space before temrinal
