@@ -8,7 +8,7 @@ TicTacController::TicTacController(QObject *parent, const unsigned int gridCount
     this->gameState = std::unique_ptr<BoardFieldGame>(new BoardFieldGame(getGridSize()));
     this->aImplement =
             std::unique_ptr<AIPlayerTicTacToe>(
-                new AIPlayerTicTacToe(getAiSymbol(),getPlayerSymbol(),6));
+                new AIPlayerTicTacToe(getAiSymbol(),getPlayerSymbol(),5));
     this->setPlayLock(true);
     connect(this,&TicTacController::moveProcessed, this,& TicTacController::moveReceived);
 
