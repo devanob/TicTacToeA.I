@@ -3,3 +3,5 @@ Making An A.I System For Tic Tac Toe. This Was Implementing A MiniMax-Alpha Beta
 Use Qt And QML
 ![](IMAGE/tictactoe.png)
 C++17
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/7zBWQhIrL3M/0.jpg)](https://www.youtube.com/watch?v=7zBWQhIrL3M)
